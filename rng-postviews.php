@@ -8,7 +8,7 @@
   License: GPLv2 or later
   Text Domain: rng-ajaxlike
  */
-
+define(JA_FILE, __FILE__);
 define(JA_PRU, plugin_basename( __FILE__ ));  
 define(JA_PDU, plugin_dir_url(__FILE__));   //http://localhost:8888/rng-plugin/wp-content/plugins/rng-postViews/
 define(JA_PRT, basename(__DIR__));          //rng-postviews.php
