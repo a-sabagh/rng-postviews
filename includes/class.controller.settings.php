@@ -9,7 +9,7 @@ if (!class_exists("ja_settings")) {
             //new 
             add_action("admin_notices", array($this, "configure_notices"));
             add_action("admin_init", array($this, "dismiss_configuration"));
-            add_filter('plugin_action_links_' . LJ_PRU, array($this, 'add_setting_link'));
+            add_filter('plugin_action_links_' . JA_PRU, array($this, 'add_setting_link'));
         }
 
         public function admin_menu() {
@@ -39,8 +39,6 @@ if (!class_exists("ja_settings")) {
             }
             $pt_args = array('public' => TRUE);
             $post_types = get_post_types($pt_args, 'names');
-            $key = array_search("attachment", $post_types);
-            unset($post_types[$key]);
             foreach ($post_types as $post_type):
                 if (is_array($active_post_type)) {
                     $checked = (in_array($post_type, $active_post_type)) ? "checked" : "";
