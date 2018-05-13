@@ -1,10 +1,13 @@
 <?php
-
+include 'class.model.cron.php';
 if (!class_exists("ja_cron")) {
-
+        
     class ja_cron {
+        
+        public $model;
 
         public function __construct() {
+            $this->model = new ja_cron_model();
             register_activation_hook(JA_ACT, array($this, "register_postviews_cron"));
             add_action("ja_postveiw_db_day", array($this, "postveiw_db_day"));
             add_action("ja_postveiw_db_week", array($this, "postveiw_db_week"));
@@ -23,15 +26,15 @@ if (!class_exists("ja_cron")) {
         }
 
         public function postveiw_db_day() {
-            $first  = get_option("ja_postviews_day_first");
-            $second = get_option("ja_postviews_day_second");
-            $third  = get_option("ja_postviews_day_third");
-            $fourth = get_option("ja_postviews_day_fourth");
-            $fifth  = get_option("ja_postviews_day_fifth");
-            $sixth  = get_option("ja_postviews_day_sixth");
-            $seventh = get_option("ja_postviews_day_seventh");
-            
-            
+            $args = array();
+            $args[] = get_option("ja_postviews_day_first");
+            $args[] = get_option("ja_postviews_day_second");
+            $args[] = get_option("ja_postviews_day_third");
+            $args[] = get_option("ja_postviews_day_fourth");
+            $args[] = get_option("ja_postviews_day_fifth");
+            $args[] = get_option("ja_postviews_day_sixth");
+            $args[] = get_option("ja_postviews_day_seventh");
+            $this->model->update_db_cron_day($args);
         }
 
         public function postveiw_db_week() {
