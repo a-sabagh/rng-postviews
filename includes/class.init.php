@@ -24,6 +24,7 @@ if(!class_exists("ja_init")){
         public function load_modules(){
             require_once 'class.controller.settings.php';
             require_once 'class.controller.postviews.php';
+            require_once 'class.controller.cron.php';
         }
     }
 }
