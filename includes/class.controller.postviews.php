@@ -6,6 +6,31 @@ if (!class_exists("ja_postviews")) {
 
         public function __construct() {
             add_action("wp_head", array($this, "set_post_views"));
+            $legal_pts = $this->legal_post_types();
+            foreach ($legal_pts as $legal_pt) {
+                add_filter("manage_{$legal_pt}_posts_columns", array($this, 'add_postviews_posts_column'), 10, 1);
+                add_action("manage_{$legal_pt}_posts_custom_column", array($this, 'add_postviews_custom_column'), 10, 2);
+            }
+        }
+
+        private function legal_post_types() {
+            $active_post_type = get_option("ja_postviews_options");
+            if ($active_post_type == FALSE) {
+                return array("post");
+            } else {
+                return $active_post_type['legal_post_type'];
+            }
+        }
+
+        public function add_postviews_posts_column($columns) {
+            return array_merge($columns, array('ja_postviews' => '<span class="dashicons dashicons-visibility"></span>'));
+        }
+
+        public function add_postviews_custom_column($column, $post_id) {
+            if ($column == 'ja_postviews') {
+                $postviews = (get_post_meta($post_id, "ja_postviews", TRUE)) ? get_post_meta($post_id, "ja_postviews", TRUE) : "0";
+                echo $postviews;
+            }
         }
 
         private function is_legal_post_veiws($args) {
@@ -24,7 +49,7 @@ if (!class_exists("ja_postviews")) {
         }
 
         public function set_post_views() {
-            if (is_single() and ! is_admin()) {
+            if (is_single() and ! is_admin() and !is_preview()) {
                 global $post;
                 $post_id = $post->ID;
                 $post_type = $post->post_type;
@@ -44,12 +69,10 @@ if (!class_exists("ja_postviews")) {
         private function update_post_views($post_id, $meta_key) {
             $old_post_views = get_post_meta($post_id, $meta_key, TRUE);
             if (isset($old_post_views) and ! empty($old_post_views)) {
-                delete_post_meta($post_id, $meta_key);
                 $new_post_views = intval($old_post_views) + 1;
                 update_post_meta($post_id, $meta_key, $new_post_views);
             } else {
-                delete_post_meta($post_id, $meta_key);
-                update_post_meta($post_id, $meta_key, 1);
+                add_post_meta($post_id, $meta_key, 1);
             }
         }
 
