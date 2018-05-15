@@ -1,32 +1,46 @@
 <?php
+
 include 'class.model.cron.php';
 if (!class_exists("ja_cron")) {
-        
+
     class ja_cron {
-        
+
         public $model;
 
         public function __construct() {
             $this->model = new ja_cron_model();
-            register_activation_hook(JA_ACT, array($this, "register_postviews_cron"));
+            add_filter( 'cron_schedules', array($this, "add_postviews_interval"));
+            register_activation_hook(JA_FILE, array($this, "register_postviews_cron"));
             register_uninstall_hook(JA_FILE, array($this, "unregister_postviews_cron"));
-            add_action("ja_postveiw_db_day", array($this, "postveiws_db_day"));
-            add_action("ja_postveiw_db_week", array($this, "postveiws_db_week"));
+            add_action("ja_postviews_db_day", array($this, "postveiws_db_day"));
+            add_action("ja_postviews_db_week", array($this, "postveiws_db_week"));
         }
 
-        public function register_postviews_cron() {
+        public function add_postviews_interval($schedules) {
+            $schedules['weekly'] = array(
+                'interval' => 604800,
+                'display' => __('Once Weekly')
+            );
+            return $schedules;
+        }
+
+        public static function register_postviews_cron() {
             if (!wp_next_scheduled('ja_postveiw_db_day')) {
-                wp_schedule_event(get_gmt_from_date(current_time("tomorrow 00:00:00"), "U"), "daily", "ja_postveiw_db_day");
+                wp_schedule_event(get_gmt_from_date("tomorrow 00:00:00", "U"), "daily", "ja_postviews_db_day");
             }
             if (!wp_next_scheduled('ja_postviews_db_week')) {
-                $start_number = db2_get_option("start_of_week");
-                $start_number += 1;
+                $start_number = intval(get_option("start_of_week"));
+                if($start_number !== 6){
+                    $start_number += 1;
+                }else{
+                    $start_number = 0;
+                }
                 $start = $this->get_start_of_week($start_number);
-                wp_schedule_event(get_gmt_from_date(strtotime("next {$start} 01:00:00"), "U"), "weekly", "ja_postveiw_db_week");
+                wp_schedule_event(get_gmt_from_date("next {$start} 01:00:00", "U"), "weekly", "ja_postviews_db_week");
             }
         }
-        
-        public function unregister_postviews_cron(){
+
+        public function unregister_postviews_cron() {
             wp_clear_scheduled_hook("ja_postveiw_db_day");
             wp_clear_scheduled_hook("ja_postveiw_db_week");
         }
@@ -54,25 +68,25 @@ if (!class_exists("ja_cron")) {
 
         private function get_start_of_week($start) {
             switch ($start) {
-                case '0':
+                case 0:
                     return "sunday";
                     break;
-                case '1':
+                case 1:
                     return "monday";
                     break;
-                case '2':
+                case 2:
                     return "tuesday";
                     break;
-                case '3':
+                case 3:
                     return "wednesday";
                     break;
-                case '4':
+                case 4:
                     return "thursday";
                     break;
-                case '5':
+                case 5:
                     return "friday";
                     break;
-                case '6':
+                case 6:
                     return "saturday";
                     break;
                 default:
@@ -84,7 +98,7 @@ if (!class_exists("ja_cron")) {
     }
 
 }
-
+new ja_cron();
 /*
 ja_postviews_day_first 
 ja_postviews_day_second 
