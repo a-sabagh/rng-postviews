@@ -24,7 +24,7 @@ if (!class_exists("ja_cron")) {
             return $schedules;
         }
 
-        public static function register_postviews_cron() {
+        public function register_postviews_cron() {
             if (!wp_next_scheduled('ja_postveiw_db_day')) {
                 wp_schedule_event(get_gmt_from_date("tomorrow 00:00:00", "U"), "daily", "ja_postviews_db_day");
             }
