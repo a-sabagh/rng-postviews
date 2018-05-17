@@ -100,7 +100,7 @@ if (!class_exists("ja_postviews")) {
          * @param type $post_id
          * @param type $meta_key
          */
-        private function update_post_views($post_id, $meta_key) {
+        private function update_post_views_meta($post_id, $meta_key) {
                 $old_post_views = get_post_meta($post_id, $meta_key, TRUE);
                 if (isset($old_post_views) and ! empty($old_post_views)) {
                     $new_post_views = intval($old_post_views) + 1;
