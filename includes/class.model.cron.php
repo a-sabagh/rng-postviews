@@ -15,10 +15,6 @@ if (!class_exists("ja_cron_model")) {
             $result[] = ($args[3] !== $args[4])?update_option("ja_postviews_day_fifth", $args[3]) : TRUE;
             $result[] = ($args[4] !== $args[5])?update_option("ja_postviews_day_sixth", $args[4]) : TRUE;
             $result[] = ($args[5] !== $args[6])? update_option("ja_postviews_day_seventh", $args[5]) : TRUE;
-            ob_start();
-            var_dump($result);
-            $output = ob_get_clean();
-            error_log($output);
             if(in_array(FALSE, $result)){
                 $wpdb->query( "ROLLBACK" );
             } else {
