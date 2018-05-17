@@ -12,6 +12,7 @@ if (!class_exists("ja_postviews")) {
                 add_action("manage_{$legal_pt}_posts_custom_column", array($this, 'add_postviews_custom_column'), 10, 2);
             }
         }
+
         /**
          * get legal post type for post views based on settings
          * @return type boolean
@@ -24,6 +25,7 @@ if (!class_exists("ja_postviews")) {
                 return $active_post_type['legal_post_type'];
             }
         }
+
         /**
          * manage_{$legal_pt}_posts_custom_column
          * @param type $columns
@@ -32,6 +34,7 @@ if (!class_exists("ja_postviews")) {
         public function add_postviews_posts_column($columns) {
             return array_merge($columns, array('ja_postviews' => '<span class="dashicons dashicons-visibility"></span>'));
         }
+
         /**
          * 
          * @param type $column
@@ -43,6 +46,7 @@ if (!class_exists("ja_postviews")) {
                 echo $postviews;
             }
         }
+
         /**
          * check legal post type for post views based on settings
          * @param type $args
@@ -62,11 +66,13 @@ if (!class_exists("ja_postviews")) {
                 return FALSE;
             }
         }
+
         /**
          * set post view and core of plugin
          * @global type $post
          */
         public function set_post_views() {
+            
             if (is_single() and ! is_admin() and !is_preview()) {
                 global $post;
                 $post_id = $post->ID;
@@ -78,25 +84,56 @@ if (!class_exists("ja_postviews")) {
                 $is_legal_post_views = $this->is_legal_post_veiws($args);
                 if ($is_legal_post_views and ! current_user_can("edit_posts")) {
                     //update post views
-                    $meta_key = "ja_postviews";
-                    $this->update_post_views($post_id, $meta_key);
+                    $post_meta = "ja_postviews";
+                    $option_meta = array(
+                        'day_views' => 'ja_postviews_day_first',
+                        'week_views' => 'ja_postviews_week_first'
+                    );
+                    $this->update_post_views_meta($post_id, $post_meta);
+                    $this->update_post_views_option($option_meta);
                 }
             }
         }
+
         /**
          * update post views
          * @param type $post_id
          * @param type $meta_key
          */
         private function update_post_views($post_id, $meta_key) {
-            $old_post_views = get_post_meta($post_id, $meta_key, TRUE);
-            if (isset($old_post_views) and ! empty($old_post_views)) {
-                $new_post_views = intval($old_post_views) + 1;
-                update_post_meta($post_id, $meta_key, $new_post_views);
+                $old_post_views = get_post_meta($post_id, $meta_key, TRUE);
+                if (isset($old_post_views) and ! empty($old_post_views)) {
+                    $new_post_views = intval($old_post_views) + 1;
+                    update_post_meta($post_id, $meta_key, $new_post_views);
+                } else {
+                    add_post_meta($post_id, $meta_key, 1);
+                }                
+        }
+
+        /**
+         * update day views and week views
+         * @param type $options_name
+         */
+        public function update_post_views_option($options_name) {
+            extract($options_name);
+            //day
+            $old_day_views = get_option($day_views);
+            if (isset($old_day_views) and ! empty($old_day_views)) {
+                $new_day_views = intval($old_day_views) + 1;
+                update_option($day_views, $new_day_views);
             } else {
-                add_post_meta($post_id, $meta_key, 1);
+                update_option($day_views, 1);
+            }
+            //week
+            $old_week_views = get_option($week_views);
+            if (isset($old_week_views) and ! empty($old_week_views)) {
+                $new_week_views = intval($old_week_views) + 1;
+                update_option($week_views, $new_week_views);
+            } else {
+                update_option($week_views, 1);
             }
         }
+
         /**
          * developer function get post views
          * @global type $post
@@ -114,7 +151,7 @@ if (!class_exists("ja_postviews")) {
             if ($is_legal_post_views) {
                 $post_views = get_post_meta($post_id, $meta_key, TRUE);
                 return (isset($post_views) and ! empty($post_views)) ? $post_views : "";
-            }else{
+            } else {
                 return FALSE;
             }
         }
