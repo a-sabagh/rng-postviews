@@ -9,7 +9,7 @@ if (!class_exists("ja_cron")) {
 
         public function __construct() {
             $this->model = new ja_cron_model();
-            add_filter( 'cron_schedules', array($this, "add_postviews_interval"));
+            add_filter('cron_schedules', array($this, "add_postviews_interval"));
             register_activation_hook(JA_FILE, array($this, "register_postviews_cron"));
             register_uninstall_hook(JA_FILE, array($this, "unregister_postviews_cron"));
             add_action("ja_postviews_db_day", array($this, "postveiws_db_day"));
@@ -30,9 +30,9 @@ if (!class_exists("ja_cron")) {
             }
             if (!wp_next_scheduled('ja_postviews_db_week')) {
                 $start_number = intval(get_option("start_of_week"));
-                if($start_number !== 6){
+                if ($start_number !== 6) {
                     $start_number += 1;
-                }else{
+                } else {
                     $start_number = 0;
                 }
                 $start = $this->get_start_of_week($start_number);
@@ -47,13 +47,18 @@ if (!class_exists("ja_cron")) {
 
         public function postveiws_db_day() {
             $args = array();
-            $args[] = get_option("ja_postviews_day_first");
-            $args[] = get_option("ja_postviews_day_second");
-            $args[] = get_option("ja_postviews_day_third");
-            $args[] = get_option("ja_postviews_day_fourth");
-            $args[] = get_option("ja_postviews_day_fifth");
-            $args[] = get_option("ja_postviews_day_sixth");
-            $args[] = get_option("ja_postviews_day_seventh");
+            $args[] = (!empty(get_option("ja_postviews_day_first"))) ? get_option("ja_postviews_day_first") : 0;
+            $args[] = (!empty(get_option("ja_postviews_day_second"))) ? get_option("ja_postviews_day_second") : 0;
+            $args[] = (!empty(get_option("ja_postviews_day_third"))) ? get_option("ja_postviews_day_third") : 0;
+            $args[] = (!empty(get_option("ja_postviews_day_fourth"))) ? get_option("ja_postviews_day_fourth") : 0;
+            $args[] = (!empty(get_option("ja_postviews_day_fifth"))) ? get_option("ja_postviews_day_fifth") : 0;
+            $args[] = (!empty(get_option("ja_postviews_day_sixth"))) ? get_option("ja_postviews_day_sixth") : 0;
+            $args[] = (!empty(get_option("ja_postviews_day_seventh"))) ? get_option("ja_postviews_day_seventh") : 0;
+            ob_start();
+            var_dump($args);
+            $output = ob_get_clean();
+            error_clear_last();
+            error_log($output);
             $this->model->update_db_cron_day($args);
         }
 
