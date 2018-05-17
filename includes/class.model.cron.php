@@ -31,10 +31,10 @@ if (!class_exists("ja_cron_model")) {
             global $wpdb;
             $wpdb->query( "START TRANSACTION" );
             $result = array();
-            $result[] = update_option("ja_postviews_week_first", 0);
-            $result[] = update_option("ja_postviews_week_second", current($args));
-            $result[] = update_option("ja_postviews_week_third", next($args));
-            $result[] = update_option("ja_postviews_week_fourth", next($args));
+            $result[] = ($args[0] !== 0)?update_option("ja_postviews_week_first", 0): TRUE;
+            $result[] = ($args[0] !== $args[1])?update_option("ja_postviews_week_second", $args[0]): TRUE;
+            $result[] = ($args[1] !== $args[2])?update_option("ja_postviews_week_third", $args[1]) : TRUE;
+            $result[] = ($args[2] !== $args[3])?update_option("ja_postviews_week_fourth", $args[2]): TRUE;
             if(in_array(FALSE, $result)){
                 $wpdb->query( "ROLLBACK" );
             }else{

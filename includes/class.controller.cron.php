@@ -64,10 +64,10 @@ if (!class_exists("ja_cron")) {
 
         public function postveiws_db_week() {
             $args = array();
-            $args[] = get_option("ja_postviews_week_first");
-            $args[] = get_option("ja_postviews_week_second");
-            $args[] = get_option("ja_postviews_week_third");
-            $args[] = get_option("ja_postviews_week_fourth");
+            $args[] = (!empty(get_option("ja_postviews_week_first")))? get_option("ja_postviews_week_first")  : 0;
+            $args[] = (!empty(get_option("ja_postviews_week_second")))? get_option("ja_postviews_week_second") : 0;
+            $args[] = (!empty(get_option("ja_postviews_week_third")))? get_option("ja_postviews_week_third") : 0;
+            $args[] = (!empty(get_option("ja_postviews_week_fourth")))? get_option("ja_postviews_week_fourth") : 0;
             $this->model->update_db_cron_week($args);
         }
 
