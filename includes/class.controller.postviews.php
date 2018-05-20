@@ -6,6 +6,7 @@ if (!class_exists("ja_postviews")) {
 
         public function __construct() {
             add_action("wp_head", array($this, "set_post_views"));
+            add_action("admin_enqueue_scripts", array($this, "localize_postviews_data"));
             $legal_pts = $this->legal_post_types();
             foreach ($legal_pts as $legal_pt) {
                 add_filter("manage_{$legal_pt}_posts_columns", array($this, 'add_postviews_posts_column'), 10, 1);
@@ -134,6 +135,74 @@ if (!class_exists("ja_postviews")) {
             }
         }
 
+        public function get_days_period() {
+            $days_pd = array();
+            $format = "Y/m/d";
+            $date = new DateTime("now");
+            $interval = new DateInterval("P1D");
+            $days_pd[] = $date->format($format); //first
+            $date->sub($interval);
+            $days_pd[] = $date->format($format); //second
+            $date->sub($interval);
+            $days_pd[] = $date->format($format); //third
+            $date->sub($interval);
+            $days_pd[] = $date->format($format); //fourth
+            $date->sub($interval);
+            $days_pd[] = $date->format($format); //fifth
+            $date->sub($interval);
+            $days_pd[] = $date->format($format); //sixth
+            $date->sub($interval);
+            $days_pd[] = $date->format($format); //seventh
+            return $days_pd;
+        }
+        
+        public function get_weeks_period() {
+            $weeks_pd = array();
+            $format = "Y/m/d";
+            $week_start = ja_cron::start_of_week();
+            $date = new DateTime("last {$week_start}");
+            $interval = new DateInterval("P7D");
+            $weeks_pd[] = $date->format($format); //first
+            $date->sub($interval);
+            $weeks_pd[] = $date->format($format); //second
+            $date->sub($interval);
+            $weeks_pd[] = $date->format($format); //third
+            $date->sub($interval);
+            $weeks_pd[] = $date->format($format); //fourth
+            return $weeks_pd;
+        }
+        
+        public static function get_days_postviews(){
+            $days_pv = array();
+            $days_pv[] = (!empty(get_option("ja_postviews_day_first"))) ? get_option("ja_postviews_day_first") : 0;
+            $days_pv[] = (!empty(get_option("ja_postviews_day_second"))) ? get_option("ja_postviews_day_second") : 0;
+            $days_pv[] = (!empty(get_option("ja_postviews_day_third"))) ? get_option("ja_postviews_day_third") : 0;
+            $days_pv[] = (!empty(get_option("ja_postviews_day_fourth"))) ? get_option("ja_postviews_day_fourth") : 0;
+            $days_pv[] = (!empty(get_option("ja_postviews_day_fifth"))) ? get_option("ja_postviews_day_fifth") : 0;
+            $days_pv[] = (!empty(get_option("ja_postviews_day_sixth"))) ? get_option("ja_postviews_day_sixth") : 0;
+            $days_pv[] = (!empty(get_option("ja_postviews_day_seventh"))) ? get_option("ja_postviews_day_seventh") : 0;
+            return $days_pv;
+        }
+        
+        public static function get_weeks_postviews(){
+            $weeks_pv = array();
+            $weeks_pv[] = (!empty(get_option("ja_postviews_week_first")))? get_option("ja_postviews_week_first")  : 0;
+            $weeks_pv[] = (!empty(get_option("ja_postviews_week_second")))? get_option("ja_postviews_week_second") : 0;
+            $weeks_pv[] = (!empty(get_option("ja_postviews_week_third")))? get_option("ja_postviews_week_third") : 0;
+            $weeks_pv[] = (!empty(get_option("ja_postviews_week_fourth")))? get_option("ja_postviews_week_fourth") : 0;
+            return $weeks_pv;
+        }
+        
+        public function localize_postviews_data(){
+            $data = array(
+                'days_period' => $this->get_days_period(),
+                'week_period' => $this->get_weeks_period(),
+                'days_postviews' => $this->get_days_postviews(),
+                'week_postviews' => $this->get_weeks_postviews()
+            );
+            wp_localize_script("ja-admin-scripts", "postviews_obj", $data);
+        }
+        
         /**
          * developer function get post views
          * @global type $post
