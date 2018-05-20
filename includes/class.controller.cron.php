@@ -29,15 +29,20 @@ if (!class_exists("ja_cron")) {
                 wp_schedule_event(get_gmt_from_date("tomorrow 00:00:00", "U"), "daily", "ja_postviews_db_day");
             }
             if (!wp_next_scheduled('ja_postviews_db_week')) {
-                $start_number = intval(get_option("start_of_week"));
-                if ($start_number !== 6) {
-                    $start_number += 1;
-                } else {
-                    $start_number = 0;
-                }
-                $start = $this->get_start_of_week($start_number);
+                $start = self::start_of_week();
                 wp_schedule_event(get_gmt_from_date("next {$start} 01:00:00", "U"), "weekly", "ja_postviews_db_week");
             }
+        }
+
+        public static function start_of_week() {
+            $start_number = intval(get_option("start_of_week"));
+            if ($start_number !== 6) {
+                $start_number += 1;
+            } else {
+                $start_number = 0;
+            }
+            $start = self::get_start_of_week($start_number);
+            return $start;
         }
 
         public function unregister_postviews_cron() {
@@ -46,23 +51,12 @@ if (!class_exists("ja_cron")) {
         }
 
         public function postveiws_db_day() {
-            $args = array();
-            $args[] = (!empty(get_option("ja_postviews_day_first"))) ? get_option("ja_postviews_day_first") : 0;
-            $args[] = (!empty(get_option("ja_postviews_day_second"))) ? get_option("ja_postviews_day_second") : 0;
-            $args[] = (!empty(get_option("ja_postviews_day_third"))) ? get_option("ja_postviews_day_third") : 0;
-            $args[] = (!empty(get_option("ja_postviews_day_fourth"))) ? get_option("ja_postviews_day_fourth") : 0;
-            $args[] = (!empty(get_option("ja_postviews_day_fifth"))) ? get_option("ja_postviews_day_fifth") : 0;
-            $args[] = (!empty(get_option("ja_postviews_day_sixth"))) ? get_option("ja_postviews_day_sixth") : 0;
-            $args[] = (!empty(get_option("ja_postviews_day_seventh"))) ? get_option("ja_postviews_day_seventh") : 0;
+            $args = ja_postviews::get_days_postviews();
             $this->model->update_db_cron_day($args);
         }
 
         public function postveiws_db_week() {
-            $args = array();
-            $args[] = (!empty(get_option("ja_postviews_week_first")))? get_option("ja_postviews_week_first")  : 0;
-            $args[] = (!empty(get_option("ja_postviews_week_second")))? get_option("ja_postviews_week_second") : 0;
-            $args[] = (!empty(get_option("ja_postviews_week_third")))? get_option("ja_postviews_week_third") : 0;
-            $args[] = (!empty(get_option("ja_postviews_week_fourth")))? get_option("ja_postviews_week_fourth") : 0;
+            $args = ja_postviews::get_weeks_postviews();
             $this->model->update_db_cron_week($args);
         }
 
