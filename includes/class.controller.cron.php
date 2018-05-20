@@ -54,11 +54,6 @@ if (!class_exists("ja_cron")) {
             $args[] = (!empty(get_option("ja_postviews_day_fifth"))) ? get_option("ja_postviews_day_fifth") : 0;
             $args[] = (!empty(get_option("ja_postviews_day_sixth"))) ? get_option("ja_postviews_day_sixth") : 0;
             $args[] = (!empty(get_option("ja_postviews_day_seventh"))) ? get_option("ja_postviews_day_seventh") : 0;
-            ob_start();
-            var_dump($args);
-            $output = ob_get_clean();
-            error_clear_last();
-            error_log($output);
             $this->model->update_db_cron_day($args);
         }
 
