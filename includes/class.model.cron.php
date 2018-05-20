@@ -4,7 +4,7 @@ if (!class_exists("ja_cron_model")) {
 
     class ja_cron_model {
 
-        public function update_db_cron_day($args = array()){            
+        public function update_db_cron_day($args = array()){
             global $wpdb;
             $wpdb->query( "START TRANSACTION" );
             $result = array();
