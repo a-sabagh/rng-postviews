@@ -13,7 +13,7 @@ if (!class_exists("ja_settings")) {
         }
 
         public function admin_menu() {
-            add_submenu_page("options-general.php", __("postviews settings", "ja_postviews"), __("postviews", "ja_postviews"), "administrator", "ja_postviews-settings", array($this, "postviews_settings"));
+            add_submenu_page("options-general.php", __("Postviews Settings", "ja_postviews"), __("postviews", "ja_postviews"), "administrator", "ja_postviews-settings", array($this, "postviews_settings"));
         }
 
         public function postviews_settings() {
@@ -22,8 +22,20 @@ if (!class_exists("ja_settings")) {
 
         public function general_settings_init() {
             register_setting("ja-postviews-settings", "ja_postviews_options");
-            add_settings_section("ja-postviews-section-top", __("general settings", "rng-postviews"), array($this, "general_setting_section_top"), "ja-postviews-settings");
-            add_settings_field("ja-postviews-pt", __("permission", "rng-postviews"), array($this, "general_setting_legal_post_type"), "ja-postviews-settings", "ja-postviews-section-top", array("id" => "ja-post-type", "name" => "legal_post_type"));
+            add_settings_section("ja-postviews-section-top", __("General settings", "rng-postviews"), array($this, "general_setting_section_top"), "ja-postviews-settings");
+            add_settings_field("ja-postviews-pt", __("Permission", "rng-postviews"), array($this, "general_setting_legal_post_type"), "ja-postviews-settings", "ja-postviews-section-top", array("id" => "ja-post-type", "name" => "legal_post_type"));
+            add_settings_field("ja-postviews-mail", __("Email Address"), array($this, "general_setting_email"), "ja-postviews-settings", "ja-postviews-section-top", array("id" => "ja-mail", "name" => "mail"));
+        }
+
+        public function general_setting_email($args) {
+            $options = get_option("ja_postviews_options");
+            $mail = $options['mail'];
+            if (!empty($mail) || !isset($mail)) {
+                $mail = get_option('admin_email');
+            }
+            ?>
+            <input type="text" id="<?php echo $args['id']; ?>" name="<?php echo $args['name']; ?>" value="<?php echo $mail; ?>">
+            <?php
         }
 
         public function general_setting_section_top() {
@@ -31,7 +43,7 @@ if (!class_exists("ja_settings")) {
         }
 
         public function general_setting_legal_post_type($args) {
-            $active_post_type = get_option("ja_postviews_options");
+            $active_post_type = get_option("");
             if ($active_post_type == FALSE) {
                 $active_post_type = array("post");
             } else {
@@ -47,7 +59,7 @@ if (!class_exists("ja_settings")) {
                 }
                 ?>
                 <label>
-                    <?php echo $post_type ?>&nbsp;<input id="<?php echo $args['id']; ?>" type="checkbox" name="ja_postviews_options[<?php echo $args['name']; ?>][]" <?php echo $checked; ?> value="<?php echo $post_type; ?>" >
+                <?php echo $post_type ?>&nbsp;<input id="<?php echo $args['id']; ?>" type="checkbox" name="ja_postviews_options[<?php echo $args['name']; ?>][]" <?php echo $checked; ?> value="<?php echo $post_type; ?>" >
                 </label>
                 <br>
                 <?php
