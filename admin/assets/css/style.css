@@ -1,0 +1,13 @@
+.featured-tab-container .featured-head li.active a {
+    background: #009CD0;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 5px;
+}
+.featured-tab-container .featured-head li{
+    display: inline-block;
+    margin: 0 5px;
+}
+.featured-tab-container .featured-head {
+    padding-bottom: 5px;
+}

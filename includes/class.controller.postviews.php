@@ -12,8 +12,18 @@ if (!class_exists("ja_postviews")) {
                 add_filter("manage_{$legal_pt}_posts_columns", array($this, 'add_postviews_posts_column'), 10, 1);
                 add_action("manage_{$legal_pt}_posts_custom_column", array($this, 'add_postviews_custom_column'), 10, 2);
             }
+            add_action("wp_dashboard_setup",array($this,"add_postviews_dashboard_widget"));
         }
 
+        
+        public function add_postviews_dashboard_widget(){
+            wp_add_dashboard_widget("ja-postviews", __("Post Views Chart","rng-postviews"),array($this,"postviews_dashboard_widget"));
+        }
+        
+        public function postviews_dashboard_widget(){
+            require_once JA_ADM . 'postviews-dashboard-widget.php';
+        }
+        
         /**
          * get legal post type for post views based on settings
          * @return type boolean
@@ -195,10 +205,10 @@ if (!class_exists("ja_postviews")) {
         
         public function localize_postviews_data(){
             $data = array(
-                'days_period' => $this->get_days_period(),
-                'week_period' => $this->get_weeks_period(),
-                'days_postviews' => $this->get_days_postviews(),
-                'week_postviews' => $this->get_weeks_postviews()
+                'days_period' => array_reverse($this->get_days_period()),
+                'weeks_period' => array_reverse($this->get_weeks_period()),
+                'days_postviews' => array_reverse($this->get_days_postviews()),
+                'weeks_postviews' => array_reverse($this->get_weeks_postviews())
             );
             wp_localize_script("ja-admin-scripts", "postviews_obj", $data);
         }

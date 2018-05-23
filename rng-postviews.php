@@ -6,7 +6,7 @@
   Author: abolfazl sabagh
   Author URI: http://asabagh.ir
   License: GPLv2 or later
-  Text Domain: rng-ajaxlike
+  Text Domain: rng-postviews
  */
 define(JA_FILE, __FILE__);
 define(JA_PRU, plugin_basename( __FILE__ ));  

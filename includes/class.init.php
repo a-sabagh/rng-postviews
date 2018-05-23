@@ -18,9 +18,12 @@ if(!class_exists("ja_init")){
         public function public_enqueue_scripts(){
             
         }
-        public function admin_enqueue_scripts(){
-            wp_enqueue_script("ja-chartjs", JA_PDU . "libraries/chart.js", array(), "", TRUE);
-            wp_enqueue_script("ja-admin-scripts", JA_PDU . "admin/assets/js/scripts.js",array("jquery","ja-chartjs"),"",TRUE);
+        public function admin_enqueue_scripts($hook){
+            if($hook == "index.php"){
+                wp_enqueue_style("ja-admin-style", JA_PDU . "admin/assets/css/style.css");
+                wp_enqueue_script("ja-chartjs", JA_PDU . "libraries/chart.js", array(), "", TRUE);
+                wp_enqueue_script("ja-admin-scripts", JA_PDU . "admin/assets/js/scripts.js",array("jquery","ja-chartjs"),"",TRUE);
+            }
         }
         public function load_modules(){
             require_once 'class.controller.settings.php';
