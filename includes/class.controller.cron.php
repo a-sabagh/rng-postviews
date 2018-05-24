@@ -14,6 +14,7 @@ if (!class_exists("ja_cron")) {
             register_uninstall_hook(JA_FILE, array($this, "unregister_postviews_cron"));
             add_action("ja_postviews_db_day", array($this, "postveiws_db_day"));
             add_action("ja_postviews_db_week", array($this, "postveiws_db_week"));
+            add_action("ja_postviews_mail_week", array($this, "postviews_mail_weekly_report"));
         }
 
         public function add_postviews_interval($schedules) {
@@ -31,6 +32,10 @@ if (!class_exists("ja_cron")) {
             if (!wp_next_scheduled('ja_postviews_db_week')) {
                 $start = self::start_of_week();
                 wp_schedule_event(get_gmt_from_date("next {$start} 01:00:00", "U"), "weekly", "ja_postviews_db_week");
+            }
+            if(!wp_next_scheduled('ja_postviews_mail_week')){
+                $start = self::start_of_week();
+                wp_schedule_event(get_gmt_from_date("next {$start} 01:00:00", "U"), "weekly", "ja_postviews_mail_week");
             }
         }
 
@@ -60,6 +65,26 @@ if (!class_exists("ja_cron")) {
             $this->model->update_db_cron_week($args);
         }
 
+        public function postviews_mail_weekly_report($args) {
+            $options = get_option("ja_postviews_options");
+            $to = $options['mail'];
+            if (!empty($to) || !isset($to)) {
+                $to = get_option('admin_email');
+            }
+            $subject = __("postviews from","rng-postviews") . home_url();
+            ob_start();
+            extract(array(
+                'days_period' => ja_postviews::get_days_period(),
+                'days_postviews' => ja_postviews::get_days_postviews(),
+                'weeks_postviews' => ja_postviews::get_weeks_per_postviews(),
+                'average_views_per_week' => ja_postviews::get_average_views_per_week()
+            ));
+            include JA_ADM . "mail-body.php";
+            $message = ob_get_clean();
+            error_log($message);
+            wp_mail($to, $subject, $message);
+        }
+        
         private function get_start_of_week($start) {
             switch ($start) {
                 case 0:
