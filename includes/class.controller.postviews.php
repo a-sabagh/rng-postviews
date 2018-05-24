@@ -166,7 +166,8 @@ if (!class_exists("ja_postviews")) {
             return $days_pd;
         }
         
-        public function get_weeks_period() {
+        
+        public static function get_weeks_period() {
             $weeks_pd = array();
             $format = "Y/m/d";
             $week_start = ja_cron::start_of_week();
@@ -194,6 +195,15 @@ if (!class_exists("ja_postviews")) {
             return $days_pv;
         }
         
+        public static function get_average_views_per_week(){
+            $postviews_arr = self::get_days_postviews();
+            if(is_array($postviews_arr)){
+                return array_sum(array_filter($postviews_arr));
+            }else{
+                return FALSE;
+            }
+        }
+        
         public static function get_weeks_postviews(){
             $weeks_pv = array();
             $weeks_pv[] = (!empty(get_option("ja_postviews_week_first")))? get_option("ja_postviews_week_first")  : 0;
@@ -205,10 +215,10 @@ if (!class_exists("ja_postviews")) {
         
         public function localize_postviews_data(){
             $data = array(
-                'days_period' => array_reverse($this->get_days_period()),
-                'weeks_period' => array_reverse($this->get_weeks_period()),
-                'days_postviews' => array_reverse($this->get_days_postviews()),
-                'weeks_postviews' => array_reverse($this->get_weeks_postviews())
+                'days_period' => array_reverse(self::get_days_period()),
+                'weeks_period' => array_reverse(self::get_weeks_period()),
+                'days_postviews' => array_reverse(self::get_days_postviews()),
+                'weeks_postviews' => array_reverse(self::get_weeks_postviews())
             );
             wp_localize_script("ja-admin-scripts", "postviews_obj", $data);
         }
