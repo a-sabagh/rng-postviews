@@ -16,7 +16,7 @@ if(!class_exists("ja_init")){
             load_plugin_textdomain($this->slug, FALSE , JA_PRT . "/languages");
         }
         public function public_enqueue_scripts(){
-            
+            wp_register_style("ja-papular-post-widg", JA_PDU . "public/assets/css/style.css");
         }
         public function admin_enqueue_scripts($hook){
             if($hook == "index.php"){
@@ -29,6 +29,7 @@ if(!class_exists("ja_init")){
             require_once 'class.controller.settings.php';
             require_once 'class.controller.postviews.php';
             require_once 'class.controller.cron.php';
+            require_once 'widgets/init.php';
         }
     }
 }
