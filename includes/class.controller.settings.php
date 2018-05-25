@@ -43,7 +43,7 @@ if (!class_exists("ja_settings")) {
         }
 
         public function general_setting_legal_post_type($args) {
-            $active_post_type = get_option("");
+            $active_post_type = get_option("ja_postviews_options");
             if ($active_post_type == FALSE) {
                 $active_post_type = array("post");
             } else {
