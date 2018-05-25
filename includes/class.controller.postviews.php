@@ -185,20 +185,27 @@ if (!class_exists("ja_postviews")) {
         
         public static function get_days_postviews(){
             $days_pv = array();
-            $days_pv[] = (!empty(get_option("ja_postviews_day_first"))) ? get_option("ja_postviews_day_first") : 0;
-            $days_pv[] = (!empty(get_option("ja_postviews_day_second"))) ? get_option("ja_postviews_day_second") : 0;
-            $days_pv[] = (!empty(get_option("ja_postviews_day_third"))) ? get_option("ja_postviews_day_third") : 0;
-            $days_pv[] = (!empty(get_option("ja_postviews_day_fourth"))) ? get_option("ja_postviews_day_fourth") : 0;
-            $days_pv[] = (!empty(get_option("ja_postviews_day_fifth"))) ? get_option("ja_postviews_day_fifth") : 0;
-            $days_pv[] = (!empty(get_option("ja_postviews_day_sixth"))) ? get_option("ja_postviews_day_sixth") : 0;
-            $days_pv[] = (!empty(get_option("ja_postviews_day_seventh"))) ? get_option("ja_postviews_day_seventh") : 0;
+            $ja_postviews_day_first = get_option("ja_postviews_day_first");
+            $days_pv[] = (!empty($ja_postviews_day_first)) ? get_option("ja_postviews_day_first") : 0;
+            $ja_postviews_day_second = get_option("ja_postviews_day_second");
+            $days_pv[] = (!empty($ja_postviews_day_second)) ? get_option("ja_postviews_day_second") : 0;
+            $ja_postviews_day_third = get_option("ja_postviews_day_third");
+            $days_pv[] = (!empty($ja_postviews_day_third)) ? get_option("ja_postviews_day_third") : 0;
+            $ja_postviews_day_fourth = get_option("ja_postviews_day_fourth");
+            $days_pv[] = (!empty($ja_postviews_day_fourth)) ? get_option("ja_postviews_day_fourth") : 0;
+            $ja_postviews_day_fifth = get_option("ja_postviews_day_fifth");
+            $days_pv[] = (!empty($ja_postviews_day_fifth)) ? get_option("ja_postviews_day_fifth") : 0;
+            $ja_postviews_day_sixth = get_option("ja_postviews_day_sixth");
+            $days_pv[] = (!empty($ja_postviews_day_sixth)) ? get_option("ja_postviews_day_sixth") : 0;
+            $ja_postviews_day_seventh = get_option("ja_postviews_day_seventh");
+            $days_pv[] = (!empty($ja_postviews_day_seventh)) ? get_option("ja_postviews_day_seventh") : 0;
             return $days_pv;
         }
         
         public static function get_average_views_per_week(){
             $postviews_arr = self::get_days_postviews();
             if(is_array($postviews_arr)){
-                return array_sum(array_filter($postviews_arr));
+                return bcdiv(array_sum(array_filter($postviews_arr)),7,3);
             }else{
                 return FALSE;
             }
@@ -206,10 +213,14 @@ if (!class_exists("ja_postviews")) {
         
         public static function get_weeks_postviews(){
             $weeks_pv = array();
-            $weeks_pv[] = (!empty(get_option("ja_postviews_week_first")))? get_option("ja_postviews_week_first")  : 0;
-            $weeks_pv[] = (!empty(get_option("ja_postviews_week_second")))? get_option("ja_postviews_week_second") : 0;
-            $weeks_pv[] = (!empty(get_option("ja_postviews_week_third")))? get_option("ja_postviews_week_third") : 0;
-            $weeks_pv[] = (!empty(get_option("ja_postviews_week_fourth")))? get_option("ja_postviews_week_fourth") : 0;
+            $ja_postviews_week_first = get_option("ja_postviews_week_first");
+            $weeks_pv[] = (!empty($ja_postviews_week_first))? get_option("ja_postviews_week_first")  : 0;
+            $ja_postviews_week_second = get_option("ja_postviews_week_second");
+            $weeks_pv[] = (!empty($ja_postviews_week_second))? get_option("ja_postviews_week_second") : 0;
+            $ja_postviews_week_third = get_option("ja_postviews_week_third");
+            $weeks_pv[] = (!empty($ja_postviews_week_third))? get_option("ja_postviews_week_third") : 0;
+            $ja_postviews_week_fourth = get_option("ja_postviews_week_fourth");
+            $weeks_pv[] = (!empty($ja_postviews_week_fourth))? get_option("ja_postviews_week_fourth") : 0;
             return $weeks_pv;
         }
         

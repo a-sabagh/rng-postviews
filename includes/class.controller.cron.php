@@ -65,24 +65,24 @@ if (!class_exists("ja_cron")) {
             $this->model->update_db_cron_week($args);
         }
 
-        public function postviews_mail_weekly_report($args) {
+        public function postviews_mail_weekly_report() {
             $options = get_option("ja_postviews_options");
             $to = $options['mail'];
             if (!empty($to) || !isset($to)) {
                 $to = get_option('admin_email');
             }
-            $subject = __("postviews from","rng-postviews") . home_url();
+            $subject = __("post views report","rng-postviews");
             ob_start();
             extract(array(
                 'days_period' => ja_postviews::get_days_period(),
                 'days_postviews' => ja_postviews::get_days_postviews(),
-                'weeks_postviews' => ja_postviews::get_weeks_per_postviews(),
+                'weeks_postviews' => ja_postviews::get_weeks_postviews(),
                 'average_views_per_week' => ja_postviews::get_average_views_per_week()
             ));
             include JA_ADM . "mail-body.php";
             $message = ob_get_clean();
-            error_log($message);
-            wp_mail($to, $subject, $message);
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail($to, $subject, $message,$headers);
         }
         
         private function get_start_of_week($start) {
