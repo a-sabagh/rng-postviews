@@ -31,7 +31,7 @@ if (!class_exists("ja_cron")) {
             }
             if (!wp_next_scheduled('ja_postviews_db_week')) {
                 $start = self::start_of_week();
-                wp_schedule_event(get_gmt_from_date("next {$start} 01:00:00", "U"), "weekly", "ja_postviews_db_week");
+                wp_schedule_event(get_gmt_from_date("next {$start} 00:02:00", "U"), "weekly", "ja_postviews_db_week");
             }
             if(!wp_next_scheduled('ja_postviews_mail_week')){
                 $start = self::start_of_week();
