@@ -31,13 +31,13 @@ jQuery(document).ready(function ($) {
     option = {
         scales: {
             yAxes: [{
-                    stacked: true,
+//                    stacked: true,
                     gridLines: {
 //                        display: false,
                     },
                 }],
             xAxes: [{
-                    stacked: true,
+//                    stacked: true,
                     gridLines: {
 //                        display: false,
                     },
