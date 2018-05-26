@@ -11,7 +11,6 @@ if (!class_exists("ja_cron")) {
             $this->model = new ja_cron_model();
             add_filter('cron_schedules', array($this, "add_postviews_interval"));
             register_activation_hook(JA_FILE, array($this, "register_postviews_cron"));
-            register_uninstall_hook(JA_FILE, array($this, "unregister_postviews_cron"));
             add_action("ja_postviews_db_day", array($this, "postveiws_db_day"));
             add_action("ja_postviews_db_week", array($this, "postveiws_db_week"));
             add_action("ja_postviews_mail_week", array($this, "postviews_mail_weekly_report"));
@@ -41,18 +40,8 @@ if (!class_exists("ja_cron")) {
 
         public static function start_of_week() {
             $start_number = intval(get_option("start_of_week"));
-            if ($start_number !== 6) {
-                $start_number += 1;
-            } else {
-                $start_number = 0;
-            }
             $start = self::get_start_of_week($start_number);
             return $start;
-        }
-
-        public function unregister_postviews_cron() {
-            wp_clear_scheduled_hook("ja_postveiw_db_day");
-            wp_clear_scheduled_hook("ja_postveiw_db_week");
         }
 
         public function postveiws_db_day() {
