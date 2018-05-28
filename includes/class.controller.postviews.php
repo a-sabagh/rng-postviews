@@ -12,18 +12,23 @@ if (!class_exists("ja_postviews")) {
                 add_filter("manage_{$legal_pt}_posts_columns", array($this, 'add_postviews_posts_column'), 10, 1);
                 add_action("manage_{$legal_pt}_posts_custom_column", array($this, 'add_postviews_custom_column'), 10, 2);
             }
-            add_action("wp_dashboard_setup",array($this,"add_postviews_dashboard_widget"));
+            add_action("wp_dashboard_setup", array($this, "add_postviews_dashboard_widget"));
         }
 
-        
-        public function add_postviews_dashboard_widget(){
-            wp_add_dashboard_widget("ja-postviews", __("Post Views Chart","rng-postviews"),array($this,"postviews_dashboard_widget"));
+        /**
+         * adding dashboard widget function
+         */
+        public function add_postviews_dashboard_widget() {
+            wp_add_dashboard_widget("ja-postviews", __("Post Views Chart", "rng-postviews"), array($this, "postviews_dashboard_widget"));
         }
-        
-        public function postviews_dashboard_widget(){
+
+        /**
+         * adding dashboard widget output function
+         */
+        public function postviews_dashboard_widget() {
             require_once JA_ADM . 'postviews-dashboard-widget.php';
         }
-        
+
         /**
          * get legal post type for post views based on settings
          * @return type boolean
@@ -83,8 +88,8 @@ if (!class_exists("ja_postviews")) {
          * @global type $post
          */
         public function set_post_views() {
-            
-            if (is_single() and ! is_admin() and !is_preview()) {
+
+            if (is_single() and ! is_admin() and ! is_preview()) {
                 global $post;
                 $post_id = $post->ID;
                 $post_type = $post->post_type;
@@ -112,13 +117,13 @@ if (!class_exists("ja_postviews")) {
          * @param type $meta_key
          */
         private function update_post_views_meta($post_id, $meta_key) {
-                $old_post_views = get_post_meta($post_id, $meta_key, TRUE);
-                if (isset($old_post_views) and ! empty($old_post_views)) {
-                    $new_post_views = intval($old_post_views) + 1;
-                    update_post_meta($post_id, $meta_key, $new_post_views);
-                } else {
-                    add_post_meta($post_id, $meta_key, 1);
-                }                
+            $old_post_views = get_post_meta($post_id, $meta_key, TRUE);
+            if (isset($old_post_views) and ! empty($old_post_views)) {
+                $new_post_views = intval($old_post_views) + 1;
+                update_post_meta($post_id, $meta_key, $new_post_views);
+            } else {
+                add_post_meta($post_id, $meta_key, 1);
+            }
         }
 
         /**
@@ -145,6 +150,10 @@ if (!class_exists("ja_postviews")) {
             }
         }
 
+        /**
+         * get the date of days in current week 
+         * @return type array
+         */
         public function get_days_period() {
             $days_pd = array();
             $format = "Y/m/d";
@@ -165,8 +174,11 @@ if (!class_exists("ja_postviews")) {
             $days_pd[] = $date->format($format); //seventh
             return $days_pd;
         }
-        
-        
+
+        /**
+         * get the date of last four week
+         * @return type array
+         */
         public static function get_weeks_period() {
             $weeks_pd = array();
             $format = "Y/m/d";
@@ -182,8 +194,12 @@ if (!class_exists("ja_postviews")) {
             $weeks_pd[] = $date->format($format); //fourth
             return $weeks_pd;
         }
-        
-        public static function get_days_postviews(){
+
+        /**
+         * get the postviews of days in current week 
+         * @return type array
+         */
+        public static function get_days_postviews() {
             $days_pv = array();
             $ja_postviews_day_first = get_option("ja_postviews_day_first");
             $days_pv[] = (!empty($ja_postviews_day_first)) ? get_option("ja_postviews_day_first") : 0;
@@ -201,30 +217,37 @@ if (!class_exists("ja_postviews")) {
             $days_pv[] = (!empty($ja_postviews_day_seventh)) ? get_option("ja_postviews_day_seventh") : 0;
             return $days_pv;
         }
-        
-        public static function get_average_views_per_week(){
+
+        public static function get_average_views_per_week() {
             $postviews_arr = self::get_days_postviews();
-            if(is_array($postviews_arr)){
-                return bcdiv(array_sum(array_filter($postviews_arr)),7,3);
-            }else{
+            if (is_array($postviews_arr)) {
+                return bcdiv(array_sum(array_filter($postviews_arr)), 7, 3);
+            } else {
                 return FALSE;
             }
         }
-        
-        public static function get_weeks_postviews(){
+
+        /**
+         * get the date of last four week
+         * @return type
+         */
+        public static function get_weeks_postviews() {
             $weeks_pv = array();
             $ja_postviews_week_first = get_option("ja_postviews_week_first");
-            $weeks_pv[] = (!empty($ja_postviews_week_first))? get_option("ja_postviews_week_first")  : 0;
+            $weeks_pv[] = (!empty($ja_postviews_week_first)) ? get_option("ja_postviews_week_first") : 0;
             $ja_postviews_week_second = get_option("ja_postviews_week_second");
-            $weeks_pv[] = (!empty($ja_postviews_week_second))? get_option("ja_postviews_week_second") : 0;
+            $weeks_pv[] = (!empty($ja_postviews_week_second)) ? get_option("ja_postviews_week_second") : 0;
             $ja_postviews_week_third = get_option("ja_postviews_week_third");
-            $weeks_pv[] = (!empty($ja_postviews_week_third))? get_option("ja_postviews_week_third") : 0;
+            $weeks_pv[] = (!empty($ja_postviews_week_third)) ? get_option("ja_postviews_week_third") : 0;
             $ja_postviews_week_fourth = get_option("ja_postviews_week_fourth");
-            $weeks_pv[] = (!empty($ja_postviews_week_fourth))? get_option("ja_postviews_week_fourth") : 0;
+            $weeks_pv[] = (!empty($ja_postviews_week_fourth)) ? get_option("ja_postviews_week_fourth") : 0;
             return $weeks_pv;
         }
-        
-        public function localize_postviews_data(){
+
+        /**
+         * send data of chart to script.js
+         */
+        public function localize_postviews_data() {
             $data = array(
                 'days_period' => array_reverse(self::get_days_period()),
                 'weeks_period' => array_reverse(self::get_weeks_period()),
@@ -233,7 +256,7 @@ if (!class_exists("ja_postviews")) {
             );
             wp_localize_script("ja-admin-scripts", "postviews_obj", $data);
         }
-        
+
         /**
          * developer function get post views
          * @global type $post

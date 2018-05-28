@@ -16,6 +16,11 @@ if (!class_exists("ja_cron")) {
             add_action("ja_postviews_mail_week", array($this, "postviews_mail_weekly_report"));
         }
 
+        /**
+         * adding cycle to default wp cycle
+         * @param type $schedules
+         * @return int
+         */
         public function add_postviews_interval($schedules) {
             $schedules['weekly'] = array(
                 'interval' => 604800,
@@ -24,6 +29,9 @@ if (!class_exists("ja_cron")) {
             return $schedules;
         }
 
+        /**
+         * register schedule event (cron)
+         */
         public function register_postviews_cron() {
             if (!wp_next_scheduled('ja_postveiw_db_day')) {
                 wp_schedule_event(get_gmt_from_date("tomorrow 00:00:00", "U"), "daily", "ja_postviews_db_day");
@@ -32,35 +40,48 @@ if (!class_exists("ja_cron")) {
                 $start = self::start_of_week();
                 wp_schedule_event(get_gmt_from_date("next {$start} 00:02:00", "U"), "weekly", "ja_postviews_db_week");
             }
-            if(!wp_next_scheduled('ja_postviews_mail_week')){
+            if (!wp_next_scheduled('ja_postviews_mail_week')) {
                 $start = self::start_of_week();
                 wp_schedule_event(get_gmt_from_date("next {$start} 01:00:00", "U"), "weekly", "ja_postviews_mail_week");
             }
         }
 
+        /**
+         * get start of week finall
+         * @return type
+         */
         public static function start_of_week() {
             $start_number = intval(get_option("start_of_week"));
             $start = self::get_start_of_week($start_number);
             return $start;
         }
 
+        /**
+         * update postviews day
+         */
         public function postveiws_db_day() {
             $args = ja_postviews::get_days_postviews();
             $this->model->update_db_cron_day($args);
         }
 
+        /**
+         * update postviews week
+         */
         public function postveiws_db_week() {
             $args = ja_postviews::get_weeks_postviews();
             $this->model->update_db_cron_week($args);
         }
 
+        /**
+         * send weekly report
+         */
         public function postviews_mail_weekly_report() {
             $options = get_option("ja_postviews_options");
             $to = $options['mail'];
             if (!empty($to) || !isset($to)) {
                 $to = get_option('admin_email');
             }
-            $subject = __("post views report","rng-postviews");
+            $subject = __("post views report", "rng-postviews");
             ob_start();
             extract(array(
                 'days_period' => ja_postviews::get_days_period(),
@@ -71,9 +92,14 @@ if (!class_exists("ja_cron")) {
             include JA_ADM . "mail-body.php";
             $message = ob_get_clean();
             $headers = array('Content-Type: text/html; charset=UTF-8');
-            wp_mail($to, $subject, $message,$headers);
+            wp_mail($to, $subject, $message, $headers);
         }
-        
+
+        /**
+         * get start of week from setting panel and reurn day
+         * @param type $start
+         * @return boolean|string
+         */
         private function get_start_of_week($start) {
             switch ($start) {
                 case 0:
@@ -107,18 +133,3 @@ if (!class_exists("ja_cron")) {
 
 }
 new ja_cron();
-/*
-ja_postviews_day_first 
-ja_postviews_day_second 
-ja_postviews_day_third 
-ja_postviews_day_fourth 
-ja_postviews_day_fifth 
-ja_postviews_day_sixth 
-ja_postviews_day_seventh
-************************
-ja_postviews_week_first 
-ja_postviews_week_second 
-ja_postviews_week_third 
-ja_postviews_week_fourth 
-*/
-
