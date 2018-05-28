@@ -4,7 +4,7 @@
     box-shadow: none;
 }
 .featured-tab-container .featured-head li a {
-    padding: 0px 8px;
+    padding: 3px 10px;
 }
 .featured-tab-container .featured-head li.active a {
     background: #009CD0;
