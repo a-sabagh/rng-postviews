@@ -16,7 +16,7 @@ if (!class_exists("ja_settings")) {
          * adding general setting of postviews plugin to admin menu
          */
         public function admin_menu() {
-            add_submenu_page("options-general.php", __("Postviews Settings", "ja_postviews"), __("postviews", "ja_postviews"), "administrator", "ja_postviews-settings", array($this, "postviews_settings"));
+            add_submenu_page("options-general.php", __("Postviews Settings", "rng-postviews"), __("postviews", "rng-postviews"), "administrator", "ja_postviews-settings", array($this, "postviews_settings"));
         }
 
         /**
@@ -55,7 +55,7 @@ if (!class_exists("ja_settings")) {
          * output of setting section ja-postviews-section-top
          */
         public function general_setting_section_top() {
-            _e("postviews setting page. please at the first select permission for post type");
+            _e("postviews setting page. please at the first select permission for post type","rng-postviews");
         }
 
         /**

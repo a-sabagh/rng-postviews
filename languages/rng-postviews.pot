@@ -1,0 +1,149 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-05-29 02:40+0430\n"
+"PO-Revision-Date: 2018-05-29 02:40+0430\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/mail-body.php:2
+msgid " views"
+msgstr ""
+
+#: admin/mail-body.php:5
+msgid "PostViews weekly Reporting"
+msgstr ""
+
+#: admin/mail-body.php:10
+msgid "Date"
+msgstr ""
+
+#: admin/mail-body.php:11
+msgid "Post Views"
+msgstr ""
+
+#: admin/mail-body.php:16
+msgid " (Today)"
+msgstr ""
+
+#: admin/mail-body.php:44
+msgid "Current Week"
+msgstr ""
+
+#: admin/mail-body.php:48
+msgid "Average (views/day)"
+msgstr ""
+
+#: admin/postviews-dashboard-widget.php:4
+msgid "daily"
+msgstr ""
+
+#: admin/postviews-dashboard-widget.php:5
+msgid "weekly"
+msgstr ""
+
+#: admin/settings-panel.php:6
+msgid "Settings saved"
+msgstr ""
+
+#: admin/settings-panel.php:8
+msgid "Error with saving"
+msgstr ""
+
+#: admin/settings-panel.php:17
+msgid "save"
+msgstr ""
+
+#: includes/class.controller.cron.php:27
+msgid "Once Weekly"
+msgstr ""
+
+#: includes/class.controller.cron.php:84
+msgid "post views report"
+msgstr ""
+
+#: includes/class.controller.postviews.php:22
+msgid "Post Views Chart"
+msgstr ""
+
+#: includes/class.controller.settings.php:19
+msgid "Postviews Settings"
+msgstr ""
+
+#: includes/class.controller.settings.php:19
+msgid "postviews"
+msgstr ""
+
+#: includes/class.controller.settings.php:34
+msgid "General settings"
+msgstr ""
+
+#: includes/class.controller.settings.php:35
+msgid "Permission"
+msgstr ""
+
+#: includes/class.controller.settings.php:36
+msgid "Email Address"
+msgstr ""
+
+#: includes/class.controller.settings.php:58
+msgid "postviews setting page. please at the first select permission for post type"
+msgstr ""
+
+#: includes/class.controller.settings.php:95
+msgid "RNG_postviews is activated, you may need to configure it to work properly."
+msgstr ""
+
+#: includes/class.controller.settings.php:95
+msgid "Go to Settings page"
+msgstr ""
+
+#: includes/class.controller.settings.php:95
+msgid "Dismiss"
+msgstr ""
+
+#: includes/class.controller.settings.php:121
+msgid "Settings"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:8
+msgid "show papular posts as list from rng-postviews plugin"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:10 includes/widgets/papular-posts.php:90
+msgid "papular posts"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:102
+msgid "Title"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:106
+msgid "Select post types"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:117
+msgid "Posts per page"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:121
+msgid "Select style"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:123
+msgid "style1 (simple list)"
+msgstr ""
+
+#: includes/widgets/papular-posts.php:124
+msgid "style2 (with thumbnail)"
+msgstr ""
