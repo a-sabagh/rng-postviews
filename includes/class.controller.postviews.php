@@ -157,7 +157,8 @@ if (!class_exists("ja_postviews")) {
         public static function get_days_period() {
             $days_pd = array();
             $format = "Y/m/d";
-            $date = new DateTime("now");
+            $timezone = get_option('timezone_string');
+            $date = new DateTime("now",new DateTimeZone($timezone));
             $interval = new DateInterval("P1D");
             $days_pd[] = $date->format($format); //first
             $date->sub($interval);
@@ -182,8 +183,9 @@ if (!class_exists("ja_postviews")) {
         public static function get_weeks_period() {
             $weeks_pd = array();
             $format = "Y/m/d";
+            $timezone = get_option('timezone_string');
             $week_start = ja_cron::start_of_week();
-            $date = new DateTime("last {$week_start}");
+            $date = new DateTime("last {$week_start}", new DateTimeZone($timezone));
             $interval = new DateInterval("P7D");
             $weeks_pd[] = $date->format($format); //first
             $date->sub($interval);
