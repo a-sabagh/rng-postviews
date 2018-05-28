@@ -1,14 +1,19 @@
-.featured-tab-container .featured-head li.active a {
-	padding: 4px 11px;
+.featured-tab-container .featured-head li a:focus,
+.featured-tab-container .featured-head li a:visited{
+    outline: none;
+    box-shadow: none;
+}
+.featured-tab-container .featured-head li a {
+    padding: 0px 8px;
 }
 .featured-tab-container .featured-head li.active a {
     background: #009CD0;
     color: white;
-    border-radius: 5px;
+
+    border-radius: 2px;
 }
 .featured-tab-container .featured-head li{
     display: inline-block;
-    margin: 0 5px;
 }
 .featured-tab-container .featured-head {
     padding-bottom: 5px;
