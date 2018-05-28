@@ -35,11 +35,11 @@ global $wpdb;
 $wpdb->query("DELETE * FROM {$wpdb->prefix}postmeta WHERE meta_key = 'ja_postviews'");
 
 //clear crones
-if (wp_next_scheduled('ja_postveiw_db_day')) {
-    wp_clear_scheduled_hook("ja_postveiw_db_day");
+if (wp_next_scheduled('ja_postviews_db_day')) {
+    wp_clear_scheduled_hook("ja_postviews_db_day");
 }
-if (wp_next_scheduled('ja_postveiw_db_week')) {
-    wp_clear_scheduled_hook("ja_postveiw_db_week");
+if (wp_next_scheduled('ja_postviews_db_week')) {
+    wp_clear_scheduled_hook("ja_postviews_db_week");
 }
 if (wp_next_scheduled('ja_postviews_mail_week')) {
     wp_clear_scheduled_hook("ja_postviews_mail_week");
