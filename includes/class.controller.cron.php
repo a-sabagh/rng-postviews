@@ -11,8 +11,8 @@ if (!class_exists("ja_cron")) {
             $this->model = new ja_cron_model();
             add_filter('cron_schedules', array($this, "add_postviews_interval"));
             register_activation_hook(JA_FILE, array($this, "register_postviews_cron"));
-            add_action("ja_postviews_db_day", array($this, "postveiws_db_day"));
-            add_action("ja_postviews_db_week", array($this, "postveiws_db_week"));
+            add_action("ja_postviews_db_day", array($this, "postviews_db_day"));
+            add_action("ja_postviews_db_week", array($this, "postviews_db_week"));
             add_action("ja_postviews_mail_week", array($this, "postviews_mail_weekly_report"));
         }
 
@@ -59,7 +59,7 @@ if (!class_exists("ja_cron")) {
         /**
          * update postviews day
          */
-        public function postveiws_db_day() {
+        public function postviews_db_day() {
             $args = ja_postviews::get_days_postviews();
             $this->model->update_db_cron_day($args);
         }
@@ -67,7 +67,7 @@ if (!class_exists("ja_cron")) {
         /**
          * update postviews week
          */
-        public function postveiws_db_week() {
+        public function postviews_db_week() {
             $args = ja_postviews::get_weeks_postviews();
             $this->model->update_db_cron_week($args);
         }
