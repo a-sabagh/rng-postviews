@@ -154,7 +154,7 @@ if (!class_exists("ja_postviews")) {
          * get the date of days in current week 
          * @return type array
          */
-        public function get_days_period() {
+        public static function get_days_period() {
             $days_pd = array();
             $format = "Y/m/d";
             $date = new DateTime("now");
