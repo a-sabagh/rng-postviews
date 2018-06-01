@@ -30,14 +30,14 @@ class ja_papular_posts_widget extends WP_Widget {
         $output .= $title;
         $output .= $args["after_title"];
         ob_start();
-        $args = array(
+        $query_args = array(
             'post_type' => $post_types,
-            'posts_per_pages' => $posts_count,
+            'posts_per_page' => $posts_count,
             'meta_key' => 'ja_postviews',
             'orderby' => 'meta_value_num',
             'order' => 'DESC'
         );
-        $query = new WP_Query($args);
+        $query = new WP_Query($query_args);
         ?>
         <ul class="ja-papular-posts ja-pp-style-<?php echo $style; ?>">
             <?php
@@ -48,7 +48,7 @@ class ja_papular_posts_widget extends WP_Widget {
                             $query->the_post();
                             ?>
                             <li>
-                                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><h4 class="ja-papular-posts-title"><?php the_title(); ?></h4></a>
+                                <a class="ja-papular-posts-title" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
                             </li>
                             <?php
                         endwhile;
@@ -63,7 +63,7 @@ class ja_papular_posts_widget extends WP_Widget {
                             <li>
                                 <a class="ja-papular-posts-thumb-wrapper" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php echo $img_thumb; ?></a>
                                 <a class="ja-papular-posts-title-wrapper <?php echo $block_el; ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-                                    <h4 class="ja-papular-posts-title"><?php the_title(); ?></h4>
+                                    <p class="ja-papular-posts-title"><?php the_title(); ?></p>
                                 </a>
                                 <span class="ja-papular-posts-date"><?php the_date(); ?></span>
                             </li>
@@ -76,7 +76,7 @@ class ja_papular_posts_widget extends WP_Widget {
         </ul>
         <?php
         $output .= ob_get_clean();
-        $output .= $args["after_widget"];
+		$output .= $args["after_widget"];
         echo $output;
     }
 

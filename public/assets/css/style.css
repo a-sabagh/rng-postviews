@@ -1,6 +1,7 @@
 .ja-papular-posts.ja-pp-style-1 li {
     display: block;
     overflow: hidden;
+    padding: 7px 0;
 }
 .ja-papular-posts.ja-pp-style-1 .ja-papular-posts-title {
     line-height: 20px;
@@ -12,14 +13,15 @@
 }
 .ja-papular-posts.ja-pp-style-1 .papular-posts-widg-thumbnail {
     margin-right: 10px;
-    width: 90px;
+    width: 80px;
     border: none;
+    height: auto;
 }
 .ja-papular-posts-title-wrapper{
-    width: 70%;
+    width: 75%;
 }
 .ja-papular-posts-thumb-wrapper{
-    width: 30%;
+    width: 25%;
 }
 .ja-papular-posts.ja-pp-style-1 li {
     list-style: none;
@@ -49,6 +51,7 @@
 
 body.rtl .ja-papular-posts.ja-pp-style-1 .papular-posts-widg-thumbnail{
     margin-left: 10px;
+    margin-right: 0 !important;
 }
 
 body.rtl .ja-papular-posts.ja-pp-style-1 li a{
