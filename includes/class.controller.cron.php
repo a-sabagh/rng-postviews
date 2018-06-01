@@ -24,7 +24,7 @@ if (!class_exists("ja_cron")) {
         public function add_postviews_interval($schedules) {
             $schedules['weekly'] = array(
                 'interval' => 604800,
-                'display' => __('Once Weekly')
+                'display' => __('Once Weekly','rng-postviews')
             );
             return $schedules;
         }
