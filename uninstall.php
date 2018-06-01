@@ -32,7 +32,7 @@ foreach ($options as $option) {
 }
 // drop a metadata
 global $wpdb;
-$wpdb->query("DELETE * FROM {$wpdb->prefix}postmeta WHERE meta_key = 'ja_postviews'");
+$wpdb->query("DELETE FROM {$wpdb->prefix}postmeta WHERE meta_key = 'ja_postviews'");
 
 //clear crones
 if (wp_next_scheduled('ja_postviews_db_day')) {
