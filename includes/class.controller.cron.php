@@ -100,7 +100,7 @@ if (!class_exists("ja_cron")) {
          * @param type $start
          * @return boolean|string
          */
-        private function get_start_of_week($start) {
+        private static function get_start_of_week($start) {
             switch ($start) {
                 case 0:
                     return "sunday";
