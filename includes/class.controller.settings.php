@@ -4,12 +4,14 @@ if (!class_exists("ja_settings")) {
     class ja_settings {
 
         public function __construct() {
-            add_action("admin_menu", array($this, "admin_menu"));
-            add_action("admin_init", array($this, "general_settings_init"));
-            //new 
-            add_action("admin_notices", array($this, "configure_notices"));
-            add_action("admin_init", array($this, "dismiss_configuration"));
-            add_filter('plugin_action_links_' . JA_PRU, array($this, 'add_setting_link'));
+            if (is_admin()) {
+                add_action("admin_menu", array($this, "admin_menu"));
+                add_action("admin_init", array($this, "general_settings_init"));
+                //new 
+                add_action("admin_notices", array($this, "configure_notices"));
+                add_action("admin_init", array($this, "dismiss_configuration"));
+                add_filter('plugin_action_links_' . JA_PRU, array($this, 'add_setting_link'));
+            }
         }
 
         /**
@@ -55,7 +57,7 @@ if (!class_exists("ja_settings")) {
          * output of setting section ja-postviews-section-top
          */
         public function general_setting_section_top() {
-            _e("postviews setting page. please at the first select permission for post type","rng-postviews");
+            _e("postviews setting page. please at the first select permission for post type", "rng-postviews");
         }
 
         /**
@@ -79,7 +81,7 @@ if (!class_exists("ja_settings")) {
                 }
                 ?>
                 <label>
-                <?php echo $post_type ?>&nbsp;<input id="<?php echo $args['id']; ?>" type="checkbox" name="ja_postviews_options[<?php echo $args['name']; ?>][]" <?php echo $checked; ?> value="<?php echo $post_type; ?>" >
+                    <?php echo $post_type ?>&nbsp;<input id="<?php echo $args['id']; ?>" type="checkbox" name="ja_postviews_options[<?php echo $args['name']; ?>][]" <?php echo $checked; ?> value="<?php echo $post_type; ?>" >
                 </label>
                 <br>
                 <?php
