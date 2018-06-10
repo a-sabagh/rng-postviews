@@ -7,7 +7,7 @@ class ja_papular_posts_widget extends WP_Widget {
             'classname' => 'papular-posts',
             'description' => __("show papular posts as list from rng-postviews plugin", "rng-postviews")
         );
-        parent::__construct("ja_papular_posts", __("papular posts", "rng-postviews"), $widget_options);
+        parent::__construct("ja_papular_posts", __("Papular Posts", "rng-postviews"), $widget_options);
     }
 
     /**
