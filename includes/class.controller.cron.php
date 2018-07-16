@@ -22,7 +22,7 @@ if (!class_exists("ja_cron")) {
          * @return int
          */
         public function add_postviews_interval($schedules) {
-            $schedules['weekly'] = array(
+            $schedules['ja_weekly'] = array(
                 'interval' => 604800,
                 'display' => __('Once Weekly','rng-postviews')
             );
@@ -38,11 +38,11 @@ if (!class_exists("ja_cron")) {
             }
             if (!wp_next_scheduled('ja_postviews_db_week')) {
                 $start = self::start_of_week();
-                wp_schedule_event(get_gmt_from_date("next {$start} 00:02:00", "U"), "weekly", "ja_postviews_db_week");
+                wp_schedule_event(get_gmt_from_date("next {$start} 00:02:00", "U"), "ja_weekly", "ja_postviews_db_week");
             }
             if (!wp_next_scheduled('ja_postviews_mail_week')) {
-                $start = self::start_of_week();
-                wp_schedule_event(get_gmt_from_date("next {$start} 01:00:00", "U"), "weekly", "ja_postviews_mail_week");
+                $end = self::end_of_week();
+                wp_schedule_event(get_gmt_from_date("next {$end} 23:59:00", "U"), "ja_weekly", "ja_postviews_mail_week");
             }
         }
 
@@ -52,8 +52,15 @@ if (!class_exists("ja_cron")) {
          */
         public static function start_of_week() {
             $start_number = intval(get_option("start_of_week"));
-            $start = self::get_start_of_week($start_number);
+            $start = self::get_week_by_int($start_number);
             return $start;
+        }
+
+        public static function end_of_week() {
+            $start_number = intval(get_option("start_of_week"));
+            $end_number = $start_number - 1;
+            $end = self::get_week_by_int($end_number);
+            return $end;
         }
 
         /**
@@ -100,7 +107,7 @@ if (!class_exists("ja_cron")) {
          * @param type $start
          * @return boolean|string
          */
-        private static function get_start_of_week($start) {
+        private static function get_week_by_int($start) {
             switch ($start) {
                 case 0:
                     return "sunday";
