@@ -68,7 +68,7 @@ if (!class_exists("ja_postviews")) {
          * @param type $args
          * @return boolean
          */
-        private function is_legal_post_veiws($args) {
+        public static function is_legal_post_veiws($args) {
             extract($args);
             $active_post_type = get_option("ja_postviews_options");
             if ($active_post_type == FALSE) {
@@ -97,7 +97,7 @@ if (!class_exists("ja_postviews")) {
                 $args = array(
                     'post_type' => $post_type
                 );
-                $is_legal_post_views = $this->is_legal_post_veiws($args);
+                $is_legal_post_views = self::is_legal_post_veiws($args);
                 if ($is_legal_post_views and ! current_user_can("edit_posts")) {
                     //update post views
                     $post_meta = "ja_postviews";
@@ -272,7 +272,7 @@ if (!class_exists("ja_postviews")) {
             $args = array(
                 'post_type' => $post_type
             );
-            $is_legal_post_views = $this->is_legal_post_veiws($args);
+            $is_legal_post_views = self::is_legal_post_veiws($args);
             if ($is_legal_post_views) {
                 $post_views = get_post_meta($post_id, $meta_key, TRUE);
                 return (isset($post_views) and ! empty($post_views)) ? $post_views : "";
