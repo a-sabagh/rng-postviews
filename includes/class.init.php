@@ -1,8 +1,8 @@
 <?php
 
-if (!class_exists("ja_init")) {
+if (!class_exists("rngja_init")) {
 
-    class ja_init {
+    class rngja_init {
 
         public $version;
         public $slug;
@@ -43,7 +43,7 @@ if (!class_exists("ja_init")) {
         }
 
         /**
-         * load modules
+         * bootstrap plugin modules
          */
         public function load_modules() {
             require_once 'class.controller.settings.php';

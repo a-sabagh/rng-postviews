@@ -1,14 +1,18 @@
 <?php
 
-include 'class.model.cron.php';
-if (!class_exists("ja_cron")) {
+include trailingslashit(__DIR__) . 'class.controller.postviews.php';
+include trailingslashit(__DIR__) . 'class.model.cron.php';
 
-    class ja_cron {
+if (!class_exists("rngja_cron")) {
+
+    class rngja_cron {
 
         public $model;
+        public $post_views;
 
         public function __construct() {
-            $this->model = new ja_cron_model();
+            $this->model = new rngja_cron_model;
+            $this->post_views = new rngja_postviews;
             add_filter('cron_schedules', array($this, "add_postviews_interval"));
             register_activation_hook(JA_FILE, array($this, "register_postviews_cron"));
             add_action("ja_postviews_db_day", array($this, "postviews_db_day"));
@@ -67,7 +71,7 @@ if (!class_exists("ja_cron")) {
          * update postviews day
          */
         public function postviews_db_day() {
-            $args = ja_postviews::get_days_postviews();
+            $args = $this->post_views->get_days_postviews();
             $this->model->update_db_cron_day($args);
         }
 
@@ -75,7 +79,7 @@ if (!class_exists("ja_cron")) {
          * update postviews week
          */
         public function postviews_db_week() {
-            $args = ja_postviews::get_weeks_postviews();
+            $args = $this->post_views->get_weeks_postviews();
             $this->model->update_db_cron_week($args);
         }
 
@@ -91,10 +95,10 @@ if (!class_exists("ja_cron")) {
             $subject = __("post views report", "rng-postviews");
             ob_start();
             extract(array(
-                'days_period' => ja_postviews::get_days_period(),
-                'days_postviews' => ja_postviews::get_days_postviews(),
-                'weeks_postviews' => ja_postviews::get_weeks_postviews(),
-                'average_views_per_week' => ja_postviews::get_average_views_per_week()
+                'days_period' => $this->post_views->get_days_period(),
+                'days_postviews' => $this->post_views->get_days_postviews(),
+                'weeks_postviews' => $this->post_views->get_weeks_postviews(),
+                'average_views_per_week' => $this->post_views->get_average_views_per_week()
             ));
             include JA_ADM . "mail-body.php";
             $message = ob_get_clean();

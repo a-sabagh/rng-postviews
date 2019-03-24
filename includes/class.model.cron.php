@@ -1,8 +1,8 @@
 <?php
 
-if (!class_exists("ja_cron_model")) {
+if (!class_exists("rngja_cron_model")) {
 
-    class ja_cron_model {
+    class rngja_cron_model {
 
         /**
          * update option for days cron

@@ -1,7 +1,7 @@
 <?php
 
-if(!class_exists("ja_activation")){
-    class ja_activation{
+if(!class_exists("rngja_activation")){
+    class rngja_activation{
         public static function active(){
             
         }
