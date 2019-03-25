@@ -28,7 +28,7 @@ if (!class_exists("rngja_cron")) {
         public function add_postviews_interval($schedules) {
             $schedules['ja_weekly'] = array(
                 'interval' => 604800,
-                'display' => __('Once Weekly','rng-postviews')
+                'display' => __('Once Weekly', 'rng-postviews')
             );
             return $schedules;
         }
@@ -72,7 +72,7 @@ if (!class_exists("rngja_cron")) {
          */
         public function postviews_db_day() {
             $args = $this->post_views->get_days_postviews();
-            $this->model->update_db_cron_day($args);
+            $this->model->update_db_cron_day($this->post_views->post_views_day_key, $args);
         }
 
         /**
@@ -80,18 +80,18 @@ if (!class_exists("rngja_cron")) {
          */
         public function postviews_db_week() {
             $args = $this->post_views->get_weeks_postviews();
-            $this->model->update_db_cron_week($args);
+            $this->model->update_db_cron_week($this->post_views->post_views_week_key, $args);
         }
 
         /**
-         * send weekly report
+         * send weekly report email
+         * @global Object $rngja_settings
          */
         public function postviews_mail_weekly_report() {
-            $options = get_option("ja_postviews_options");
-            $to = $options['mail'];
-            if (!empty($to) || !isset($to)) {
-                $to = get_option('admin_email');
-            }
+            
+            global $rngja_settings;
+            $settings = $rngja_settings->settings;
+            $to = $settings['mail'];
             $subject = __("post views report", "rng-postviews");
             ob_start();
             extract(array(

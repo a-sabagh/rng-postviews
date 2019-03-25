@@ -29,7 +29,7 @@ if (!class_exists("rngja_settings")) {
             }
 
             $ja_settings_array['legal_pt'] = (array) $ja_settings['legal_post_type'];
-            $ja_settings_array['mail'] = (string) $ja_settings['mail'];
+            $ja_settings_array['mail'] = (is_email($ja_settings['mail']))? $ja_settings['mail'] : get_option('admin_email');
             return $ja_settings_array;
         }
 
@@ -155,5 +155,5 @@ if (!class_exists("rngja_settings")) {
     }
 
 }
-global $rngja_postviewes;
-$rngja_postviewes = new rngja_settings();
+global $rngja_settings;
+$rngja_settings = new rngja_settings();

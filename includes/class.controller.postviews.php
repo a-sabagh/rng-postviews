@@ -51,11 +51,26 @@ if (!class_exists("rngja_postviews")) {
          * get legal post type for post views based on settings
          * @return type boolean
          */
-        private function legal_post_types() {
-            global $rngja_postviews;
-            $settings = $rngja_postviews->settings;
+        public function legal_post_types() {
+            global $rngja_settings;
+            $settings = $rngja_settings->settings;
             $active_post_type = (array) $settings['legal_post_type'];
             return $active_post_type;
+        }
+
+        /**
+         * map all array element to integer and convert empty or null element to 0
+         * @param Array $arr
+         * @return Array
+         */
+        public function array_map_intval(&$arr) {
+            array_map("intval", $arr);
+            foreach ($arr as $key => $value) {
+                if (is_null($value) or empty($value)) {
+                    $arr[$key] = 0;
+                }
+            }
+            return $arr;
         }
 
         /**
@@ -105,33 +120,39 @@ if (!class_exists("rngja_postviews")) {
         }
 
         /**
+         * check if legal template for set post view
+         * @return Boolean
+         */
+        public function is_legal_situation() {
+            return is_singular() and ! is_admin() and ! is_preview() and current_user_can("edit_posts");
+        }
+
+        /**
          * set post view and core of plugin
-         * @global type $post
          */
         public function set_post_views() {
-
-            if (is_singular() and ! is_admin() and ! is_preview()) {
-                global $post;
-                $post_id = (int) $post->ID;
-                $post_type = $post->post_type;
-                //restricted post views action
-                $args = array(
-                    'post_type' => $post_type
-                );
-                $is_legal_post_views = $this->is_legal_post_veiws($args);
-                if ($is_legal_post_views and ! current_user_can("edit_posts")) {
-                    //update post views
-                    $post_meta = $this->postviews_key;
-                    $postviews_day_key = $this->post_views_day_key;
-                    $postviews_week_key = $this->post_views_week_key;
-                    $option_meta = array(
-                        'day_views' => "{$postviews_day_key}_first",
-                        'week_views' => "{$postviews_week_key}_first"
-                    );
-                    $this->update_post_views_meta($post_id, $post_meta);
-                    $this->update_post_views_option($option_meta);
-                }
+            $queried_object = get_queried_object();
+            if (!$this->is_legal_situation() or empty($queried_object)) {
+                return;
             }
+            $post_id = (int) $queried_object->ID;
+            $post_type = $queried_object->post_type;
+            //restricted post views action
+            $args = array('post_type' => $post_type);
+            $is_legal_post_views = $this->is_legal_post_veiws($args);
+            if (!$is_legal_post_views) {
+                return;
+            }
+            //update post views
+            $post_meta = $this->postviews_key;
+            $postviews_day_key = $this->post_views_day_key;
+            $postviews_week_key = $this->post_views_week_key;
+            $option_meta = array(
+                'day_views' => "{$postviews_day_key}_first",
+                'week_views' => "{$postviews_week_key}_first"
+            );
+            $this->update_post_views_meta($post_id, $post_meta);
+            $this->update_post_views_option($option_meta);
         }
 
         /**
@@ -140,7 +161,7 @@ if (!class_exists("rngja_postviews")) {
          * @param type $meta_key
          */
         private function update_post_views_meta($post_id, $meta_key) {
-            $old_post_views = get_post_meta($post_id, $meta_key, TRUE);
+            $old_post_views = (int) get_post_meta($post_id, $meta_key, TRUE);
             if (!empty($old_post_views)) {
                 $new_post_views = intval($old_post_views) + 1;
                 update_post_meta($post_id, $meta_key, $new_post_views);
@@ -156,7 +177,7 @@ if (!class_exists("rngja_postviews")) {
         public function update_post_views_option($options_name) {
             extract($options_name);
             //day
-            $old_day_views = get_option($day_views);
+            $old_day_views = (int) get_option($day_views);
             if (!empty($old_day_views)) {
                 $new_day_views = intval($old_day_views) + 1;
                 update_option($day_views, $new_day_views);
@@ -164,7 +185,7 @@ if (!class_exists("rngja_postviews")) {
                 update_option($day_views, 1);
             }
             //week
-            $old_week_views = get_option($week_views);
+            $old_week_views = (int) get_option($week_views);
             if (!empty($old_week_views)) {
                 $new_week_views = intval($old_week_views) + 1;
                 update_option($week_views, $new_week_views);
@@ -198,13 +219,14 @@ if (!class_exists("rngja_postviews")) {
             $weeks_pd = array();
             $format = "Y/m/d";
             $timezone = get_option('timezone_string');
-            $week_start = ja_cron::start_of_week();
+            $week_start = rngja_cron::start_of_week();
             $date = new DateTime("last {$week_start}", new DateTimeZone($timezone));
             $interval = new DateInterval("P7D");
             for ($i = 0; $i < 4; $i++) {
                 $weeks_pd[] = $date->format($format);
                 $date->sub($interval);
             }
+            $this->array_map_intval($weeks_pd);
             return $weeks_pd;
         }
 
@@ -223,6 +245,7 @@ if (!class_exists("rngja_postviews")) {
                 $day = get_option("{$postviews_day_key}{$number}");
                 $days_pv[] = (!empty($day)) ? $day : 0;
             }
+            $this->array_map_intval($days_pv);
             return $days_pv;
         }
 
@@ -252,6 +275,7 @@ if (!class_exists("rngja_postviews")) {
                 $postviews_option = get_option("{$this->post_views_week_key}{$number}");
                 $weeks_pv[] = (!empty($postviews_option)) ? $postviews_option : 0;
             }
+            $this->array_map_intval($weeks_pv);
             return $weeks_pv;
         }
 
@@ -266,28 +290,6 @@ if (!class_exists("rngja_postviews")) {
                 'weeks_postviews' => array_reverse($this->get_weeks_postviews())
             );
             wp_localize_script("ja-admin-scripts", "postviews_obj", $data);
-        }
-
-        /**
-         * developer function get post views
-         * @global type $post
-         * @return boolean
-         */
-        public function get_post_veiws() {
-            global $post;
-            $post_id = $post->ID;
-            $post_type = $post->post_type;
-            $meta_key = $this->postviews_key;
-            $args = array(
-                'post_type' => $post_type
-            );
-            $is_legal_post_views = $this->is_legal_post_veiws($args);
-            if ($is_legal_post_views) {
-                $post_views = get_post_meta($post_id, $meta_key, TRUE);
-                return (isset($post_views) and ! empty($post_views)) ? $post_views : "";
-            } else {
-                return FALSE;
-            }
         }
 
     }
