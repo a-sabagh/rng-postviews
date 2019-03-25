@@ -1,7 +1,7 @@
 <?php
 
 /*
-  Plugin Name: rng-postviewes
+  Plugin Name: rng-postviews
   Description: WordPress plugin that set post view count for each post and reports them in a chart. in a front end, you have a widget and shortcode to show post view count.
   Version: 1.0
   Author: Abolfazl Sabagh
