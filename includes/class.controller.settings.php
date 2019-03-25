@@ -5,7 +5,10 @@ defined('ABSPATH') || exit;
 if (!class_exists("rngja_settings")) {
 
     class rngja_settings {
-
+        /**
+         * settings array include legal post types and email
+         * @var Array
+         */
         public $settings;
 
         public function __construct() {
@@ -19,7 +22,10 @@ if (!class_exists("rngja_settings")) {
             add_action("admin_init", array($this, "dismiss_configuration"));
             add_filter('plugin_action_links_' . RNGJA_PRU, array($this, 'add_setting_link'));
         }
-
+        /**
+         * set plugin settings in settings attribute
+         * @return Array
+         */
         public function get_ja_settings() {
             $ja_settings_array = array(
                 'legal_post_type' => array('post'),

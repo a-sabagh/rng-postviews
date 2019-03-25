@@ -7,7 +7,16 @@ if (!class_exists("rngja_cron")) {
 
     class rngja_cron {
 
+        /**
+         * cron model object
+         * @var Object
+         */
         public $model;
+
+        /**
+         * object instanse of rngja_postviews
+         * @var Object
+         */
         public $post_views;
 
         public function __construct() {
@@ -60,10 +69,14 @@ if (!class_exists("rngja_cron")) {
             return $start;
         }
 
+        /**
+         * get end of week
+         * @return String
+         */
         public static function end_of_week() {
             $start_number = intval(get_option("start_of_week"));
             $end_number = $start_number - 1;
-            $end_number = ($end_number < 0)? 6 : $end_number;
+            $end_number = ($end_number < 0) ? 6 : $end_number;
             $end = self::get_week_by_int($end_number);
             return $end;
         }
