@@ -1,4 +1,7 @@
 <?php
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 $views = __(" views", "rng-postviews");
 ?>
 <div style="font-family: arial;">
