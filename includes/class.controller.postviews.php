@@ -51,7 +51,7 @@ if (!class_exists("rngja_postviews")) {
          * adding dashboard widget output function
          */
         public function postviews_dashboard_widget() {
-            require_once JA_ADM . 'postviews-dashboard-widget.php';
+            require_once RNGJA_ADM . 'postviews-dashboard-widget.php';
         }
 
         /**

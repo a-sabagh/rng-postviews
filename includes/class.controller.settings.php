@@ -47,7 +47,7 @@ if (!class_exists("rngja_settings")) {
          * output of setting page for postviews options
          */
         public function postviews_settings() {
-            include JA_ADM . "settings-panel.php";
+            include RNGJA_ADM . "settings-panel.php";
         }
 
         /**

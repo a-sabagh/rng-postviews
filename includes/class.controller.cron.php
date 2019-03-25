@@ -101,7 +101,7 @@ if (!class_exists("rngja_cron")) {
                 'weeks_postviews' => $this->post_views->get_weeks_postviews(),
                 'average_views_per_week' => $this->post_views->get_average_views_per_week()
             ));
-            include JA_ADM . "mail-body.php";
+            include RNGJA_ADM . "mail-body.php";
             $message = ob_get_clean();
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail($to, $subject, $message, $headers);
