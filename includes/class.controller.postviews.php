@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || exit;
+
 if (!class_exists("rngja_postviews")) {
 
     class rngja_postviews {
@@ -42,7 +44,7 @@ if (!class_exists("rngja_postviews")) {
 
         public function get_timezone() {
             $timezone = get_option('timezone_string');
-            return (empty($timezone))? 'UTC' : $timezone;
+            return (empty($timezone)) ? 'UTC' : $timezone;
         }
 
         /**
@@ -129,7 +131,7 @@ if (!class_exists("rngja_postviews")) {
          * @return Boolean
          */
         public function is_legal_situation() {
-            return is_singular() and ! is_admin() and ! is_preview() and !current_user_can("edit_posts");
+            return is_singular() and ! is_admin() and ! is_preview() and ! current_user_can("edit_posts");
         }
 
         /**

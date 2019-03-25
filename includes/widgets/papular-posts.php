@@ -1,6 +1,7 @@
 <?php
+defined('ABSPATH') || exit;
 
-class ja_papular_posts_widget extends WP_Widget {
+class rngja_papular_posts_widget extends WP_Widget {
 
     public function __construct() {
         $widget_options = array(
@@ -76,7 +77,7 @@ class ja_papular_posts_widget extends WP_Widget {
         </ul>
         <?php
         $output .= ob_get_clean();
-		$output .= $args["after_widget"];
+        $output .= $args["after_widget"];
         echo $output;
     }
 
@@ -148,7 +149,7 @@ class ja_papular_posts_widget extends WP_Widget {
  * register widget main function
  */
 function register_ja_papular_posts() {
-    register_widget("ja_papular_posts_widget");
+    register_widget("rngja_papular_posts_widget");
 }
 
 add_action("widgets_init", "register_ja_papular_posts");

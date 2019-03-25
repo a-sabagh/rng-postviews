@@ -1,4 +1,7 @@
 <?php
+
+defined('ABSPATH') || exit;
+
 if (!class_exists("rngja_settings")) {
 
     class rngja_settings {
@@ -14,7 +17,7 @@ if (!class_exists("rngja_settings")) {
             add_action("admin_init", array($this, "general_settings_init"));
             add_action("admin_notices", array($this, "configure_notices"));
             add_action("admin_init", array($this, "dismiss_configuration"));
-            add_filter('plugin_action_links_' . JA_PRU, array($this, 'add_setting_link'));
+            add_filter('plugin_action_links_' . RNGJA_PRU, array($this, 'add_setting_link'));
         }
 
         public function get_ja_settings() {
@@ -29,7 +32,7 @@ if (!class_exists("rngja_settings")) {
             }
 
             $ja_settings_array['legal_pt'] = (array) $ja_settings['legal_post_type'];
-            $ja_settings_array['mail'] = (is_email($ja_settings['mail']))? $ja_settings['mail'] : get_option('admin_email');
+            $ja_settings_array['mail'] = (is_email($ja_settings['mail'])) ? $ja_settings['mail'] : get_option('admin_email');
             return $ja_settings_array;
         }
 

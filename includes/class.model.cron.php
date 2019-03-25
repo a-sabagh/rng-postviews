@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || exit;
+
 if (!class_exists("rngja_cron_model")) {
 
     class rngja_cron_model {

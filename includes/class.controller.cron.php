@@ -14,7 +14,7 @@ if (!class_exists("rngja_cron")) {
             $this->model = new rngja_cron_model;
             $this->post_views = new rngja_postviews;
             add_filter('cron_schedules', array($this, "add_postviews_interval"));
-            register_activation_hook(JA_FILE, array($this, "register_postviews_cron"));
+            register_activation_hook(RNGJA_FILE, array($this, "register_postviews_cron"));
             add_action("ja_postviews_db_day", array($this, "postviews_db_day"));
             add_action("ja_postviews_db_week", array($this, "postviews_db_week"));
             add_action("ja_postviews_mail_week", array($this, "postviews_mail_weekly_report"));

@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || exit;
+
 if (!class_exists("rngja_init")) {
 
     class rngja_init {
@@ -20,14 +22,14 @@ if (!class_exists("rngja_init")) {
          * add text domain for translate files
          */
         public function add_text_domain() {
-            load_plugin_textdomain($this->slug, FALSE, JA_PRT . "/languages");
+            load_plugin_textdomain($this->slug, FALSE, RNGJA_PRT . "/languages");
         }
 
         /**
          * enqueue scripts for public 
          */
         public function public_enqueue_scripts() {
-            wp_register_style("ja-papular-post-widg", JA_PDU . "public/assets/css/style.css");
+            wp_register_style("ja-papular-post-widg", RNGJA_PDU . "public/assets/css/style.css");
         }
 
         /**
@@ -36,9 +38,9 @@ if (!class_exists("rngja_init")) {
          */
         public function admin_enqueue_scripts($hook) {
             if ($hook == "index.php") {
-                wp_enqueue_style("ja-admin-style", JA_PDU . "admin/assets/css/style.css");
-                wp_enqueue_script("ja-chartjs", JA_PDU . "libraries/chart.js", array(), "", TRUE);
-                wp_enqueue_script("ja-admin-scripts", JA_PDU . "admin/assets/js/scripts.js", array("jquery", "ja-chartjs"), "", TRUE);
+                wp_enqueue_style("ja-admin-style", RNGJA_PDU . "admin/assets/css/style.css");
+                wp_enqueue_script("ja-chartjs", RNGJA_PDU . "libraries/chart.js", array(), "", TRUE);
+                wp_enqueue_script("ja-admin-scripts", RNGJA_PDU . "admin/assets/js/scripts.js", array("jquery", "ja-chartjs"), "", TRUE);
             }
         }
 
@@ -49,7 +51,7 @@ if (!class_exists("rngja_init")) {
             require_once 'class.controller.settings.php';
             require_once 'class.controller.postviews.php';
             require_once 'class.controller.cron.php';
-            require_once 'widgets/init.php';
+            require_once 'widgets/papular-posts.php';
         }
 
     }

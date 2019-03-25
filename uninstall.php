@@ -23,7 +23,7 @@ $options = array(
     'ja_postviews_week_third',
     'ja_postviews_week_fourth',
     //widgets
-    'widget_ja_papular_posts'
+    'widget_rngja_papular_posts'
 );
 foreach ($options as $option) {
     if (get_option($option)) {
