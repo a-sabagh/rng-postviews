@@ -40,6 +40,11 @@ if (!class_exists("rngja_postviews")) {
             wp_add_dashboard_widget("ja-postviews", __("Post Views Chart", "rng-postviews"), array($this, "postviews_dashboard_widget"));
         }
 
+        public function get_timezone() {
+            $timezone = get_option('timezone_string');
+            return (empty($timezone))? 'UTC' : $timezone;
+        }
+
         /**
          * adding dashboard widget output function
          */
@@ -124,7 +129,7 @@ if (!class_exists("rngja_postviews")) {
          * @return Boolean
          */
         public function is_legal_situation() {
-            return is_singular() and ! is_admin() and ! is_preview() and current_user_can("edit_posts");
+            return is_singular() and ! is_admin() and ! is_preview() and !current_user_can("edit_posts");
         }
 
         /**
@@ -201,7 +206,7 @@ if (!class_exists("rngja_postviews")) {
         public function get_days_period() {
             $days_pd = array();
             $format = "Y/m/d";
-            $timezone = get_option('timezone_string');
+            $timezone = $this->get_timezone();
             $date = new DateTime("now", new DateTimeZone($timezone));
             $interval = new DateInterval("P1D");
             for ($i = 0; $i < 7; $i++) {
@@ -218,7 +223,7 @@ if (!class_exists("rngja_postviews")) {
         public function get_weeks_period() {
             $weeks_pd = array();
             $format = "Y/m/d";
-            $timezone = get_option('timezone_string');
+            $timezone = $this->get_timezone();
             $week_start = rngja_cron::start_of_week();
             $date = new DateTime("last {$week_start}", new DateTimeZone($timezone));
             $interval = new DateInterval("P7D");
@@ -295,6 +300,3 @@ if (!class_exists("rngja_postviews")) {
     }
 
 }
-
-global $rngja_postviews;
-$rngja_postviews = new rngja_postviews();

@@ -18,7 +18,7 @@ define(JA_TMP, JA_PDP . "/public/");        // view OR templates directory for p
 define(JA_ADM, JA_PDP . "/admin/");         // view OR templates directory for admin panel
 
 require_once 'includes/class.init.php';
-$rngja_init = new ja_init(1.0, 'rng-postviews');
+$rngja_init = new rngja_init(1.0, 'rng-postviews');
 
 
 if (!function_exists("rngja_get_post_viewe_count")) {

@@ -1,7 +1,7 @@
 <?php
 
-include trailingslashit(__DIR__) . 'class.controller.postviews.php';
-include trailingslashit(__DIR__) . 'class.model.cron.php';
+require_once trailingslashit(__DIR__) . 'class.controller.postviews.php';
+require_once trailingslashit(__DIR__) . 'class.model.cron.php';
 
 if (!class_exists("rngja_cron")) {
 
@@ -37,8 +37,8 @@ if (!class_exists("rngja_cron")) {
          * register schedule event (cron)
          */
         public function register_postviews_cron() {
-            if (!wp_next_scheduled('ja_postveiw_db_day')) {
-                wp_schedule_event(get_gmt_from_date("tomorrow 00:00:00", "U"), "daily", "ja_postviews_db_day");
+            if (!wp_next_scheduled('ja_postviews_db_day')) {
+                wp_schedule_event(get_gmt_from_date("tomorrow 00:00:01", "U"), "daily", "ja_postviews_db_day");
             }
             if (!wp_next_scheduled('ja_postviews_db_week')) {
                 $start = self::start_of_week();
@@ -63,6 +63,7 @@ if (!class_exists("rngja_cron")) {
         public static function end_of_week() {
             $start_number = intval(get_option("start_of_week"));
             $end_number = $start_number - 1;
+            $end_number = ($end_number < 0)? 6 : $end_number;
             $end = self::get_week_by_int($end_number);
             return $end;
         }
@@ -88,7 +89,7 @@ if (!class_exists("rngja_cron")) {
          * @global Object $rngja_settings
          */
         public function postviews_mail_weekly_report() {
-            
+
             global $rngja_settings;
             $settings = $rngja_settings->settings;
             $to = $settings['mail'];
@@ -112,35 +113,12 @@ if (!class_exists("rngja_cron")) {
          * @return boolean|string
          */
         private static function get_week_by_int($start) {
-            switch ($start) {
-                case 0:
-                    return "sunday";
-                    break;
-                case 1:
-                    return "monday";
-                    break;
-                case 2:
-                    return "tuesday";
-                    break;
-                case 3:
-                    return "wednesday";
-                    break;
-                case 4:
-                    return "thursday";
-                    break;
-                case 5:
-                    return "friday";
-                    break;
-                case 6:
-                    return "saturday";
-                    break;
-                default:
-                    return FALSE;
-                    break;
-            }
+            $index = (int) $start;
+            $week = array("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday");
+            return $week[$index];
         }
 
     }
 
 }
-new ja_cron();
+new rngja_cron();
