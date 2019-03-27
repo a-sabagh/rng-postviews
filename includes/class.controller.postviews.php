@@ -7,20 +7,17 @@ if (!class_exists("rngja_postviews")) {
     class rngja_postviews {
 
         /**
-         * post views key string
-         * @var String 
+         * @var String  post views key string
          */
         public $postviews_key = "ja_postviews";
 
         /**
-         * post views day key in wp_options
-         * @var String
+         * @var String post views day key in wp_options
          */
         public $post_views_day_key = "ja_postviews_day";
 
         /**
-         * post views week key in wp_options
-         * @var String
+         * @var String post views week key in wp_options
          */
         public $post_views_week_key = "ja_postviews_week";
 
@@ -136,16 +133,25 @@ if (!class_exists("rngja_postviews")) {
          * check if legal template for set post view
          * @return Boolean
          */
-        public function is_legal_situation() {
+        public function is_legal_situation_set() {
             return is_singular() and ! is_admin() and ! is_preview() and ! current_user_can("edit_posts");
         }
-
+        
+        
+        /**
+         * check if legal template for set post view
+         * @return Boolean
+         */
+        public function is_legal_situation_get() {
+            return is_singular() and ! is_admin() and ! is_preview();
+        }
+        
         /**
          * set post view and core of plugin
          */
         public function set_post_views() {
             $queried_object = get_queried_object();
-            if (!$this->is_legal_situation() or empty($queried_object)) {
+            if (!$this->is_legal_situation_set() or empty($queried_object)) {
                 return;
             }
             $post_id = (int) $queried_object->ID;
@@ -312,7 +318,7 @@ if (!class_exists("rngja_postviews")) {
          */
         public function postviews_shortcode() {
             $queried_object = get_queried_object();
-            if (!$this->is_legal_situation() or empty($queried_object)) {
+            if (!$this->is_legal_situation_get() or empty($queried_object)) {
                 return;
             }
             $post_id = (int) $queried_object->ID;
