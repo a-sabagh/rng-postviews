@@ -36,7 +36,7 @@ if (!function_exists("rngja_get_post_viewe_count")) {
         if (!$is_legal_post_views) {
             return false;
         }
-        $post_views = (int) get_post_meta($post_id,  $rngja_postviewes->postviews_key, true);
+        $post_views = (int) $rngja_postviewes->get_post_views($post_id);
         return $post_views;
     }
 

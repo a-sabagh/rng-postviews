@@ -33,6 +33,12 @@ if (!class_exists("rngja_postviews")) {
                 add_action("manage_{$legal_pt}_posts_custom_column", array($this, 'add_postviews_custom_column'), 10, 2);
             }
             add_action("wp_dashboard_setup", array($this, "add_postviews_dashboard_widget"));
+            add_shortcode("rngja_postviews", array($this, "postviews_shortcode"));
+        }
+        
+        public function get_post_views($post_id){
+            $post_views = get_post_meta($post_id, $this->postviews_key, true);
+            return (empty($post_views))? 0 : $post_views ;
         }
 
         /**
@@ -297,6 +303,27 @@ if (!class_exists("rngja_postviews")) {
                 'weeks_postviews' => array_reverse($this->get_weeks_postviews())
             );
             wp_localize_script("ja-admin-scripts", "postviews_obj", $data);
+        }
+        
+        /**
+         * shortcode show post view count in single page
+         * [rngja_postviews]
+         * @return Integer
+         */
+        public function postviews_shortcode() {
+            $queried_object = get_queried_object();
+            if (!$this->is_legal_situation() or empty($queried_object)) {
+                return;
+            }
+            $post_id = (int) $queried_object->ID;
+            $post_type = $queried_object->post_type;
+            $args = array('post_type' => $post_type);
+            $is_legal_post_views = $this->is_legal_post_veiws($args);
+            if (!$is_legal_post_views) {
+                return;
+            }
+            $post_view = $this->get_post_views($post_id);
+            return $post_view;
         }
 
     }
