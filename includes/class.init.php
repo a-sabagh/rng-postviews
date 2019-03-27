@@ -6,7 +6,14 @@ if (!class_exists("rngja_init")) {
 
     class rngja_init {
 
+        /**
+         * @var Integer plugin version
+         */
         public $version;
+
+        /**
+         * @var String Plugin slug
+         */
         public $slug;
 
         public function __construct($version, $slug) {
@@ -23,6 +30,7 @@ if (!class_exists("rngja_init")) {
          */
         public function add_text_domain() {
             load_plugin_textdomain($this->slug, FALSE, RNGJA_PRT . "/languages");
+            require_once trailingslashit(__DIR__) . "translate.php";
         }
 
         /**
@@ -34,7 +42,7 @@ if (!class_exists("rngja_init")) {
 
         /**
          * enqueue script to admin panel
-         * @param type $hook
+         * @param String $hook
          */
         public function admin_enqueue_scripts($hook) {
             if ($hook == "index.php") {

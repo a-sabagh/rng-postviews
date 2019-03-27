@@ -302,3 +302,6 @@ if (!class_exists("rngja_postviews")) {
     }
 
 }
+
+global $rngja_postviewes;
+$rngja_postviewes = new rngja_postviews;

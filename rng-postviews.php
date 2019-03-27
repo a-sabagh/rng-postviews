@@ -29,14 +29,14 @@ if (!function_exists("rngja_get_post_viewe_count")) {
      * @param Integer $post_id
      * @return boolean
      */
-    function rngja_get_post_viewe_count($post_id) {
+    function rngja_get_post_viewe_count($post_id = 0) {
         global $rngja_postviewes;
         $args = array('post_type' => get_post_type($post_id));
         $is_legal_post_views = $rngja_postviewes->is_legal_post_veiws($args);
         if (!$is_legal_post_views) {
             return false;
         }
-        $post_views = $rngja_postviewes->get_postviewes_count($post_id);
+        $post_views = (int) get_post_meta($post_id,  $rngja_postviewes->postviews_key, true);
         return $post_views;
     }
 
