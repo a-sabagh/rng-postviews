@@ -46,7 +46,7 @@ if (!class_exists("rngja_settings")) {
          * adding general setting of postviews plugin to admin menu
          */
         public function admin_menu() {
-            add_submenu_page("options-general.php", __("Postviews Settings", "rng-postviews"), __("postviews", "rng-postviews"), "administrator", "ja_postviews-settings", array($this, "postviews_settings"));
+            add_submenu_page("options-general.php", esc_html__("Postviews Settings", "rng-postviews"), esc_html__("postviews", "rng-postviews"), "administrator", "ja_postviews-settings", array($this, "postviews_settings"));
         }
 
         /**
@@ -61,9 +61,9 @@ if (!class_exists("rngja_settings")) {
          */
         public function general_settings_init() {
             register_setting("ja-postviews-settings", "ja_postviews_options");
-            add_settings_section("ja-postviews-section-top", __("General settings", "rng-postviews"), array($this, "general_setting_section_top"), "ja-postviews-settings");
-            add_settings_field("ja-postviews-pt", __("Permission", "rng-postviews"), array($this, "general_setting_legal_post_type"), "ja-postviews-settings", "ja-postviews-section-top", array("id" => "ja-post-type", "name" => "legal_post_type"));
-            add_settings_field("ja-postviews-mail", __("Email Address"), array($this, "general_setting_email"), "ja-postviews-settings", "ja-postviews-section-top", array("id" => "ja-mail", "name" => "mail"));
+            add_settings_section("ja-postviews-section-top", esc_html__("General settings", "rng-postviews"), array($this, "general_setting_section_top"), "ja-postviews-settings");
+            add_settings_field("ja-postviews-pt", esc_html__("Permission", "rng-postviews"), array($this, "general_setting_legal_post_type"), "ja-postviews-settings", "ja-postviews-section-top", array("id" => "ja-post-type", "name" => "legal_post_type"));
+            add_settings_field("ja-postviews-mail", esc_html__("Email Address"), array($this, "general_setting_email"), "ja-postviews-settings", "ja-postviews-section-top", array("id" => "ja-mail", "name" => "mail"));
         }
 
         /**
@@ -82,7 +82,7 @@ if (!class_exists("rngja_settings")) {
          * output of setting section ja-postviews-section-top
          */
         public function general_setting_section_top() {
-            _e("Post views setting page. please at the first select permission for post type", "rng-postviews");
+            esc_html_e("Post views setting page. please at the first select permission for post type", "rng-postviews");
         }
 
         /**
@@ -117,7 +117,7 @@ if (!class_exists("rngja_settings")) {
             if ($dismiss) {
                 return;
             }
-            $notice = '<div class="updated"><p>' . __('rng-postviewes is activated, you may need to configure it to work properly.', 'rng-postviews') . ' <a href="' . admin_url('admin.php?page=ja_postviews-settings') . '">' . __('Go to Settings page', 'rng-postviews') . '</a> &ndash; <a href="' . add_query_arg(array('ja_dismiss_notice' => 'true', 'ja_nonce' => wp_create_nonce("ja_dismiss_nonce"))) . '">' . __('Dismiss', 'rng-postviews') . '</a></p></div>';
+            $notice = '<div class="updated"><p>' . esc_html__('rng-postviewes is activated, you may need to configure it to work properly.', 'rng-postviews') . ' <a href="' . admin_url('admin.php?page=ja_postviews-settings') . '">' . esc_html__('Go to Settings page', 'rng-postviews') . '</a> &ndash; <a href="' . add_query_arg(array('ja_dismiss_notice' => 'true', 'ja_nonce' => wp_create_nonce("ja_dismiss_nonce"))) . '">' . esc_html__('Dismiss', 'rng-postviews') . '</a></p></div>';
             echo $notice;
         }
 
@@ -156,7 +156,7 @@ if (!class_exists("rngja_settings")) {
          */
         public function add_setting_link($links) {
             $mylinks = array(
-                '<a href="' . admin_url('options-general.php?page=ja_postviews-settings') . '">' . __("Settings", "rng-postviews") . '</a>',
+                '<a href="' . admin_url('options-general.php?page=ja_postviews-settings') . '">' . esc_html__("Settings", "rng-postviews") . '</a>',
             );
             return array_merge($links, $mylinks);
         }

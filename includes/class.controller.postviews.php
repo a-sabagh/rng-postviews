@@ -39,7 +39,7 @@ if (!class_exists("rngja_postviews")) {
          * add post views report as Dashboard Widget
          */
         public function add_postviews_dashboard_widget() {
-            wp_add_dashboard_widget("ja-postviews", __("Post Views Chart", "rng-postviews"), array($this, "postviews_dashboard_widget"));
+            wp_add_dashboard_widget("ja-postviews", esc_html__("Post Views Chart", "rng-postviews"), array($this, "postviews_dashboard_widget"));
         }
 
         public function get_timezone() {

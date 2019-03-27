@@ -6,9 +6,9 @@ class rngja_papular_posts_widget extends WP_Widget {
     public function __construct() {
         $widget_options = array(
             'classname' => 'papular-posts',
-            'description' => __("show papular posts as list from rng-postviews plugin", "rng-postviews")
+            'description' => esc_html__("show papular posts as list from rng-postviews plugin", "rng-postviews")
         );
-        parent::__construct("ja_papular_posts", __("Papular Posts", "rng-postviews"), $widget_options);
+        parent::__construct("ja_papular_posts", esc_html__("Papular Posts", "rng-postviews"), $widget_options);
     }
 
     /**
@@ -40,7 +40,7 @@ class rngja_papular_posts_widget extends WP_Widget {
         );
         $query = new WP_Query($query_args);
         ?>
-        <ul class="ja-papular-posts ja-pp-style-<?php echo $style; ?>">
+        <ul class="ja-papular-posts ja-pp-style-<?php echo esc_attr($style); ?>">
             <?php
             if ($query->have_posts()):
                 switch ($style):
@@ -62,8 +62,8 @@ class rngja_papular_posts_widget extends WP_Widget {
                             $block_el = (has_post_thumbnail($post_id)) ? "" : "block-el";
                             ?>
                             <li>
-                                <a class="ja-papular-posts-thumb-wrapper" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php echo $img_thumb; ?></a>
-                                <a class="ja-papular-posts-title-wrapper <?php echo $block_el; ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                                <a class="ja-papular-posts-thumb-wrapper" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php echo esc_url($img_thumb); ?></a>
+                                <a class="ja-papular-posts-title-wrapper <?php echo esc_attr($block_el); ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
                                     <p class="ja-papular-posts-title"><?php the_title(); ?></p>
                                 </a>
                                 <span class="ja-papular-posts-date"><?php the_date(); ?></span>
@@ -88,7 +88,7 @@ class rngja_papular_posts_widget extends WP_Widget {
         //$instance = get value from admin panel fields
         //$this->get_field_id('FIELDNAME') = avoid id conflict
         //$this->get_field_name('FIELDNAME') = avoid name conflict
-        $title = (!empty($instance['title'])) ? $instance['title'] : __("papular posts", "rng-postviews");
+        $title = (!empty($instance['title'])) ? $instance['title'] : esc_html__("papular posts", "rng-postviews");
         $post_types = (!empty($instance['post_types']) and isset($instance['post_types'])) ? $instance['post_types'] : array('post');
         $posts_count = (!empty($instance['posts_count'])) ? $instance['posts_count'] : 4;
         $style = (!empty($instance['style'])) ? $instance['style'] : 0;
@@ -100,11 +100,11 @@ class rngja_papular_posts_widget extends WP_Widget {
         }
         ?>
         <p>
-            <label><?php _e("Title", "rng-postviews"); ?></label>
-            <input type="text" id="<?php echo $this->get_field_id("title"); ?>" name="<?php echo $this->get_field_name("title"); ?>" style="width: 100%;" name="<?php echo $this->get_field_name("title"); ?>" value="<?php echo $title; ?>">
+            <label><?php esc_html_e("Title", "rng-postviews"); ?></label>
+            <input type="text" id="<?php echo $this->get_field_id("title"); ?>" name="<?php echo $this->get_field_name("title"); ?>" style="width: 100%;" name="<?php echo $this->get_field_name("title"); ?>" value="<?php echo esc_attr($title); ?>">
         </p>
         <p>
-            <label><?php _e("Select post types", "rng-postviews"); ?></label>
+            <label><?php esc_html_e("Select post types", "rng-postviews"); ?></label>
             <select id="<?php echo $this->get_field_id("post-types") ?>" multiple="" name="<?php echo $this->get_field_name("post_types"); ?>[]" style="width: 100%;">
                 <?php
                 foreach ($active_post_type as $post_type) {
@@ -115,14 +115,14 @@ class rngja_papular_posts_widget extends WP_Widget {
             </select>
         </p>        
         <p>
-            <label><?php _e("Posts per page", "rng-postviews"); ?></label>
-            <input type="number" id="<?php echo $this->get_field_id('posts-count'); ?>" style="width: 100%;" name="<?php echo $this->get_field_name('posts_count'); ?>" value="<?php echo $posts_count; ?>" />
+            <label><?php esc_html_e("Posts per page", "rng-postviews"); ?></label>
+            <input type="number" id="<?php echo $this->get_field_id('posts-count'); ?>" style="width: 100%;" name="<?php echo $this->get_field_name('posts_count'); ?>" value="<?php echo esc_attr($posts_count); ?>" />
         </p>
         <p>
-            <label><?php _e("Select style", "rng-postviews"); ?></label>
+            <label><?php esc_html_e("Select style", "rng-postviews"); ?></label>
             <select id="<?php echo $this->get_field_id("style"); ?>" style="width: 100%;" name="<?php echo $this->get_field_name("style") ?>">
-                <option <?php echo ($style == 0) ? 'selected=""' : ''; ?> value="0"><?php _e("style1 (simple list)", "rng-postviews"); ?></option>
-                <option <?php echo ($style == 1) ? 'selected=""' : ''; ?> value="1"><?php _e("style2 (with thumbnail)", "rng-postviews"); ?></option>
+                <option <?php echo ($style == 0) ? 'selected=""' : ''; ?> value="0"><?php esc_html_e("style1 (simple list)", "rng-postviews"); ?></option>
+                <option <?php echo ($style == 1) ? 'selected=""' : ''; ?> value="1"><?php esc_html_e("style2 (with thumbnail)", "rng-postviews"); ?></option>
             </select>
         </p>    
         <?php

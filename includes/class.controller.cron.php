@@ -37,7 +37,7 @@ if (!class_exists("rngja_cron")) {
         public function add_postviews_interval($schedules) {
             $schedules['ja_weekly'] = array(
                 'interval' => 604800,
-                'display' => __('Once Weekly', 'rng-postviews')
+                'display' => esc_html__('Once Weekly', 'rng-postviews')
             );
             return $schedules;
         }
@@ -106,7 +106,7 @@ if (!class_exists("rngja_cron")) {
             global $rngja_settings;
             $settings = $rngja_settings->settings;
             $to = $settings['mail'];
-            $subject = __("post views report", "rng-postviews");
+            $subject = esc_html__("post views report", "rng-postviews");
             ob_start();
             extract(array(
                 'days_period' => $this->post_views->get_days_period(),

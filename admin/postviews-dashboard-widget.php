@@ -6,8 +6,8 @@ if (!defined('ABSPATH')) {
 <div class="container">
     <div class="featured-tab-container">
         <ul class="featured-head">
-            <li><a href="#ja-daily-chart-tab"><?php _e("daily", "rng-postviews"); ?></a></li>
-            <li><a href="#ja-weekly-tab"><?php _e("weekly", "rng-postviews"); ?></a></li>
+            <li><a href="#ja-daily-chart-tab"><?php esc_html_e("daily", "rng-postviews"); ?></a></li>
+            <li><a href="#ja-weekly-tab"><?php esc_html_e("weekly", "rng-postviews"); ?></a></li>
         </ul><!--.featured-head-->
         <div class="featured-tab-container">
             <div class="tab-menu-content" id="ja-daily-chart-tab">
