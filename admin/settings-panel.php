@@ -21,4 +21,3 @@ if (isset($_GET['settings-updated']) and $_GET['settings-updated'] == TRUE) {
         ?>
     </form>
 </div>
-
