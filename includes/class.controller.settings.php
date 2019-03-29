@@ -35,7 +35,7 @@ class rngja_settings {
             return $ja_settings_array;
         }
 
-        $ja_settings_array['legal_pt'] = (array) $ja_settings['legal_post_type'];
+        $ja_settings_array['legal_post_type'] = (array) $ja_settings['legal_post_type'];
         $ja_settings_array['mail'] = (is_email($ja_settings['mail'])) ? $ja_settings['mail'] : get_option('admin_email');
         return $ja_settings_array;
     }
@@ -72,7 +72,7 @@ class rngja_settings {
         $settings = $this->settings;
         $mail = sanitize_email($settings['mail']);
         ?>
-        <input type="text" id="<?php echo $args['id']; ?>" name="<?php echo $args['name']; ?>" value="<?php echo $mail; ?>">
+        <input type="text" id="<?php echo $args['id']; ?>" name="ja_postviews_options[<?php echo $args['name']; ?>]" value="<?php echo $mail; ?>">
         <?php
     }
 
