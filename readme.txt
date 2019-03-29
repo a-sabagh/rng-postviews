@@ -42,6 +42,12 @@ it is strongly was recommended that after the plugin is activated, go to the `Se
 Also You can this plugin on github:
 https://github.com/a-sabagh/rng-postviews
 
+== Screenshots ==
+
+1. Admin screen widget
+2. Settings panel
+3. Widget in admin screen
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/rng-postviews` directory, or install the plugin through the WordPress plugins screen directly.
