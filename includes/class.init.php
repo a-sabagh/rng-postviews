@@ -28,7 +28,6 @@ class rngja_init {
      */
     public function add_text_domain() {
         load_plugin_textdomain($this->slug, FALSE, RNGJA_PRT . "/languages");
-        require_once trailingslashit(__DIR__) . "translate.php";
     }
 
     /**
@@ -58,6 +57,7 @@ class rngja_init {
         require_once 'class.controller.postviews.php';
         require_once 'class.controller.cron.php';
         require_once 'widgets/papular-posts.php';
+        require_once trailingslashit(__DIR__) . "translate.php";
     }
 
 }
