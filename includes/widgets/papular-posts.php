@@ -62,7 +62,7 @@ class rngja_papular_posts_widget extends WP_Widget {
                             $block_el = (has_post_thumbnail($post_id)) ? "" : "block-el";
                             ?>
                             <li>
-                                <a class="ja-papular-posts-thumb-wrapper" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php echo esc_url($img_thumb); ?></a>
+                                <a class="ja-papular-posts-thumb-wrapper" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php echo $img_thumb; ?></a>
                                 <a class="ja-papular-posts-title-wrapper <?php echo esc_attr($block_el); ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
                                     <p class="ja-papular-posts-title"><?php the_title(); ?></p>
                                 </a>
