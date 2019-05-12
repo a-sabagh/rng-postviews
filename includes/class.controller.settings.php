@@ -100,7 +100,7 @@ class rngja_settings {
             }
             ?>
             <label>
-            <?php echo $post_type ?>&nbsp;<input id="<?php echo $args['id']; ?>" type="checkbox" name="ja_postviews_options[<?php echo $args['name']; ?>][]" <?php echo $checked; ?> value="<?php echo $post_type; ?>" >
+                <?php echo $post_type ?>&nbsp;<input id="<?php echo $args['id']; ?>" type="checkbox" name="ja_postviews_options[<?php echo $args['name']; ?>][]" <?php echo $checked; ?> value="<?php echo $post_type; ?>" >
             </label>
             <br>
             <?php
@@ -138,10 +138,10 @@ class rngja_settings {
      * dismiss configuration notice
      */
     public function dismiss_configuration() {
-        $verify_nonce = wp_verify_nonce($_GET['ja_nonce'], 'ja_dismiss_nonce');
-        $dismiss_notice = $_GET['ja_dismiss_notice'];
-        $dismiss = $_GET['ja_dismiss'];
-        $page = $_GET['page'];
+        $verify_nonce = (isset($_GET['ja_nonce'])) ? wp_verify_nonce($_GET['ja_nonce'], 'ja_dismiss_nonce') : false;
+        $dismiss_notice = (isset($_GET['ja_dismiss_notice']))? $_GET['ja_dismiss_notice'] : false;
+        $dismiss = (isset($_GET['ja_dismiss']))? $_GET['ja_dismiss'] : false;
+        $page = (isset($_GET['page']))? $_GET['page'] : false;
         if ($this->check_dismiss_configuration($verify_nonce, $dismiss_notice, $dismiss, $page)) {
             update_option("ja_configration_dissmiss", 1);
         }
